@@ -5,12 +5,12 @@ merged version of the DirectAuthoring and the MainGenerator
 Dealing with lists and does not check for valid path points
 '''
 
-import Utils.Svg as SVG
-import Utils.shapeEditing as SHAPE
-import Utils.basic as UB
+import threadPlotter.Utils.svg as SVG
+import threadPlotter.Utils.shapeEditing as SHAPE
+import threadPlotter.Utils.basic as UB
 import datetime,random
 
-class DirectAuthoringGenerator():
+class DirectAuthoringGenerator:
     #storage-related
     def initStorage(self, makeDate=True):
         baseSaveLoc = "C:/licia/art/generative/"
@@ -75,9 +75,9 @@ class DirectAuthoringGenerator():
 
     #axidraw-python authoring
     def calculateAxidrawPosition(self,pt,withMargin=True):
-        dotPathInInches = PU.ptToInchStrWithTranslate(pt, self.i2p, self.marginInch["l"], self.marginInch["t"])
+        dotPathInInches = SHAPE.ptToInchStrWithTranslate(pt, self.i2p, self.marginInch["l"], self.marginInch["t"])
         if not withMargin:
-            dotPathInInches=PU.ptToInchStr(pt,self.i2p,precision=2)
+            dotPathInInches=SHAPE.ptToInchStr(pt,self.i2p,precision=2)
         return dotPathInInches
 
     def writeEmptyUpdate(self,writerIdx):
@@ -109,10 +109,10 @@ class DirectAuthoringGenerator():
         self.axidrawWriters[writerIdx].write("ad.pendown()\n")
         self.axidrawWriters[writerIdx].write("ad.penup()\n")
     def addMoveTo(self,dotCenter, writerIdx, withMargin=True):
-        dotPathInInches=self.calculateAxidrawPosition(dotCenter,writerIdx,withMargin=withMargin)
+        dotPathInInches=self.calculateAxidrawPosition(dotCenter,withMargin=withMargin)
         self.axidrawWriters[writerIdx].write("ad.moveto(" + dotPathInInches[0] + "," + dotPathInInches[1] + ")\n")
     def addLineTo(self,pt,writerIdx,withMargin=True):
-        dotPathInInches = self.calculateAxidrawPosition(pt, writerIdx, withMargin=withMargin)
+        dotPathInInches = self.calculateAxidrawPosition(pt, withMargin=withMargin)
         self.axidrawWriters[writerIdx].write("ad.lineto(" + dotPathInInches[0] + "," + dotPathInInches[1] + ")\n")
     def addPath(self,toAppend,d,baseSoup,additionalAttr):
         attr={"d": d}
@@ -127,7 +127,7 @@ class DirectAuthoringGenerator():
             else:
                 self.addLineTo(pt,writerIdx)
     def addComment(self, comment, toolIdx):
-        self.axidraws[toolIdx].write("##" + comment + "\n")
+        self.axidrawWriters[toolIdx].write("##" + comment + "\n")
     def initNewAxidrawWriter(self, additionalTag=""):
         axidrawHeader = [
             "'''\n auto-generated axidraw code \n'''\nfrom pyaxidraw import axidraw\nimport time\nad "
@@ -177,10 +177,10 @@ class DirectAuthoringGenerator():
             for i, coll in enumerate(self.axidrawPathCollection):
                 for pathPoints in coll:
                     if checkBoundary:
-                        minX, maxX, minY, maxY = PU.getBoundaryBoxPtsVersion(pathPoints)
+                        minX, maxX, minY, maxY = SHAPE.getBoundaryBoxPtsVersion(pathPoints)
                         if minX > self.wh_m[0] or minY > self.wh_m[1]:
                             continue
-                        PU.pressIntoABox(pathPoints, 0, 0, self.wh_m[0], self.wh_m[1])
+                        SHAPE.pressIntoABox(pathPoints, 0, 0, self.wh_m[0], self.wh_m[1])
                     self.addDrawing(pathPoints, i)
                     self.addDrawing(pathPoints, -1)
                     self.addPath(self.svg.g, SHAPE.getStraightPath(pathPoints), self.svg, self.tools[i])
@@ -204,10 +204,9 @@ class DirectAuthoringGenerator():
         name = self.getFullSaveLoc(additionalTag)
         SVG.saveSVG(soup, fullPath=name + ".svg")
 
-    def __init__(self,settings=None,batchName="",svg=True,toolSvg=True):
+    def __init__(self,settings,batchName="",svg=True,toolSvg=True):
         self.batchName=batchName
-        if settings:
-            self.initBasedOnSettings(settings)
+        self.initBasedOnSettings(settings)
         self.axidrawWriters = []
         defaultSettings = {
             "normalSetting": {
