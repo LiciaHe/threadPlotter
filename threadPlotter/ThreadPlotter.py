@@ -25,7 +25,9 @@ class ThreadPlotter(DirectAuthoringGenerator):
         DirectAuthoringGenerator.__init__(self,settings,batchName=batchName,svg=svg,toolSvg=toolSvg)
         #extract thread plotter specific information from the settings
         self.initSpeedAndDepthMap()
-        self.segmentLength=UB.unitConvert(self.currentSpec["segmentLength"],self.unit,)
+        self.segmentLength=UB.unitConvert(self.currentSpec["segmentLength"],self.unit,self.i2p)
+        self.trailStitchLength=UB.unitConvert(self.currentSpec["trailStitchLength"],self.unit,self.i2p)
+
 
 
 
