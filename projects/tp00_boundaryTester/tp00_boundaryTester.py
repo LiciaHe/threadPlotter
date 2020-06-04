@@ -15,11 +15,21 @@ settings={
         "toolsCt": 3,#how many colors
         "margins":{"l":2,"r":2,"t":2,"b":2},#in inches
         "displayInnerRect": False, #adding a boundary rectangle to the svg file (will not append to the python files)
-        "displayOuterRect": False
+        "displayOuterRect": False,
+        "plotterDefaultSetting":{
+            "model":2 #according to https://axidraw.com/doc/py_api/#model
+        }
     },
     "spec":{
         #stores any user-defined specs
+        "segmentLength":0.04,#inches
+        "trailStitchLength":0.1,
 
+        "trailLoopDepthPerc":35,
+        "plotterSettingRange":{
+            "speedPercRange":[20,80],
+            "depthPercRange":[35,100],#The range(%) that the z axis can move. 100% corresponds to the longest stitch whereas 55
+        }
     }
 
 }

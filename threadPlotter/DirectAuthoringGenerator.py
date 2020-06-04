@@ -37,6 +37,7 @@ class DirectAuthoringGenerator:
         self.timeTag = str(datetime.datetime.now().strftime("%H%M%S")) + "_" + str(random.getrandbits(3))
         self.timedLoc = self.dateFolder + self.timeTag + self.batchName + "/"
         UB.mkdir(self.timedLoc)
+        self.unit=self.basicSettings["unit"] if "unit" in self.basicSettings else "inch"
         if "inchToPx" in self.basicSettings:
             self.i2p = self.basicSettings["inchToPx"]
         else:
@@ -129,26 +130,15 @@ class DirectAuthoringGenerator:
     def addComment(self, comment, toolIdx):
         self.axidrawWriters[toolIdx].write("##" + comment + "\n")
     def initNewAxidrawWriter(self, additionalTag=""):
-        axidrawHeader = [
-            "'''\n auto-generated axidraw code \n'''\nfrom pyaxidraw import axidraw\nimport time\nad "
-            "=axidraw.AxiDraw()\nad.interactive()\nad.connect()\n",
-            "ad.options.model=2\n",
-            "ad.options.pen_rate_lower=80\n",
-            "ad.options.pen_rate_upper=80\n"
-        ]
-        axidrawHeaderEnd = [
-            "ad.penup()",
-            "ad.moveto(0, 0)",
-            "ad.penup()",
-            "ad.pendown()\n"
-        ]
+
+
         currentName = self.getFullSaveLoc(additionalTag=additionalTag + "_" + str(len(self.axidrawWriters)))
 
         axidrawWriter = open(currentName + ".py", "w")
         self.axidrawWriters.append(axidrawWriter)
-        axidrawWriter.write("\n".join(axidrawHeader) + "\n")
+        axidrawWriter.write(self.axidrawHeader)
         self.updateOptions(self.normalSetting, len(self.axidrawWriters) - 1)
-        axidrawWriter.write("\n".join(axidrawHeaderEnd))
+        self.writeEmptyUpdate(len(self.axidrawWriters) - 1)
         return len(self.axidrawWriters) - 1
 
 
@@ -233,9 +223,22 @@ class DirectAuthoringGenerator:
         if self.i2p!=96:
             print("The inch to pixel rate is currently set to "+str(self.i2p))
         self.toolsCt = self.basicSettings["toolsCt"]
+
+        axidrawHeader = [
+            "'''\n auto-generated axidraw code using ThreadPlotter\n'''\nfrom pyaxidraw import axidraw\nimport "
+            "time\nad "
+            "=axidraw.AxiDraw()\nad.interactive()\nad.connect()\n"
+        ]
+        for k in self.basicSettings["plotterDefaultSetting"]:
+            axidrawHeader.append("ad.options."+k+"="+str(self.basicSettings["plotterDefaultSetting"][k])+"\n")
+        axidrawHeader.append("ad.update()\n")
+        self.axidrawHeader="\n".join(axidrawHeader)+"\n"
+
+
+
         if svg:
             self.svg, self.wh, self.wh_m, self.boundaryRect, self.margins = SVG.makeBasicSvgWithFoundations(
-                self.basicSettings)
+                self.basicSettings,unit=self.unit,i2p=self.i2p)
             self.generateRandomTools()
             if toolSvg:
                 self.toolSvgs=[]

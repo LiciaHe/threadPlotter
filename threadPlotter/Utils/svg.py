@@ -74,7 +74,7 @@ def addComponent(soupBase,base,tagName,attrs):
     base.append(e)
     return e
 
-def makeBasicSvgWithFoundations(basicSettings,unit="inch",i2p=96):
+def makeBasicSvgWithFoundations(basicSettings,unit,i2p):
     '''
     SHORTER VERSION, WITHOUT TOOLPAD
     :param basicsettings:

@@ -30,3 +30,24 @@ def unitConvert(val,unit,i2p=96):
     elif "mm" in unit.lower():
         multiplier=i2cm*10
     return multiplier*val
+
+def makeIntLinearMap(rangeMin,rangeMax,domainCount):
+    '''
+    goes
+    :param rangeMin:
+    :param rangeMax:
+    :param domainCount: a list of mapped values that goes from low to high
+    :return:
+    '''
+    dist=(rangeMax-rangeMin)/domainCount
+    #[int(rangeMax - i * dist) for i, c in range(domainCount)]
+    return lambda i:rangeMax-i*dist if i<domainCount and i>-1 else None
+def load_object(fileName):
+
+    with open(fileName, 'rb') as inputF:
+        obj = pickle.load(inputF)
+        inputF.close()
+    return obj
+def save_object(obj, filename):
+    with open(filename, 'wb') as output:
+        pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)

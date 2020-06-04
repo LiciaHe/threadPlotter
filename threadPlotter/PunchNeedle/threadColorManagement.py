@@ -2,11 +2,10 @@
 PROCESS and find colored thread
 '''
 import math
-import sys,os
-sys.path.insert(1,"../")
-import Utils.basic as UB
-# import colorsys
+
+from threadPlotter.Utils import basic as UB
 from itertools import combinations
+
 def getAverageColor(c1,c2,c3):
     '''
     return avg rgb
@@ -62,7 +61,6 @@ def makeColorCombinations(seedFile="embroidery_thread_color.csv"):
         avgColor=getAverageColor(c1,c2,c3)
         combinedColor.append(((c1i,c2i,c3i),avgColor))
     print(len(combinedColor))
-    print(combinedColor[:10])
     UB.save_object({"original":originalColor,"mixed":combinedColor},"threadColor.pkl")
 def rgbStrToTriplet(rgbStr):
     return [int(c) for c in rgbStr[4:-1].split(",")]
@@ -78,7 +76,7 @@ def pickThreadColor(colors):
     '''
     # file="original_only.pkl"
     # if additional:
-    file="../../../embroidery/threadColor.pkl"
+    file="threadColor.pkl"
     colorMap=UB.load_object(file)
     plainColor={}
     mixedColor={}
@@ -99,8 +97,6 @@ def pickThreadColor(colors):
             mixedColor[i]=selectedMixColor
             obj={"mixedExpect":selectedMixColor[1],"c":[colorMap["original"][idx] for idx in selectedMixColor[0]],"diff":[calculateColorDifference(color, selectedMixColor[1]),calculateColorDifference(colorMap["mixed"][-1][1], color)]}
             colorList.append(obj)
-
-
 
     return plainColor,mixedColor,colorList
 def exportThreadColorListPKL(seedFile="embroidery_thread_color.csv"):
@@ -127,6 +123,7 @@ def exportThreadColorListPKL(seedFile="embroidery_thread_color.csv"):
             originalColor.append(c)
     UB.save_object(originalColor, "original_thread_list.pkl")
 
-exportThreadColorListPKL()
+if __name__=="__main__":
+    exportThreadColorListPKL()
 
 

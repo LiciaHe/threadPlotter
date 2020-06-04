@@ -274,6 +274,11 @@ class PunchNeedleGenerator(ArtGenerator):
             toolIdx = self.colors.index(color)
             self.addTrailAndPointFromCenters(centers, toolIdx, req)
     def updateColor(self,pathCollection=None):
+        '''
+        overwrite existing color
+        :param pathCollection:
+        :return:
+        '''
         if not pathCollection:
             self.generateRandomTools()
             self.colors =[spec["stroke"] for spec in self.tools]
@@ -285,26 +290,8 @@ class PunchNeedleGenerator(ArtGenerator):
             self.initToolSvg()
             for i,color in enumerate(self.colors):
                 self.tools[i]["stroke"]=color
-    def decideDepth(self,mode="evenDistance"):
-        '''
-        sort color by sum, even distance between them
-        :return:
-        '''
-        maxD=self.defaultSetting["maxDepth"]["pen_pos_down"]
-        minD=self.defaultSetting["minDepth"]["pen_pos_down"]
-        self.depthDist=(maxD-minD)/len(self.colors)
-        self.depthMap = [int(maxD - i * self.depthDist) for i, c in enumerate(self.colors)]
 
-        maxS = self.defaultSetting["maxDepth"]["pen_rate_raise"]
-        minS = self.defaultSetting["minDepth"]["pen_rate_raise"]
-        self.speedDist = (maxS - minS) / len(self.colors)
-        # if mode=="evenDistance":
-        self.speedMap=[int(maxS-i*self.speedDist) for i,c in enumerate(self.colors)]
-    def initSaveLoc(self,additionalTag=""):
-        self.timeTag = str(datetime.datetime.now().strftime("%H%M%S")) + "_" + str(random.getrandbits(3))
-        print("init saving loc")
-        self.bundleLoc = self.dateFolder+self.timeTag +additionalTag+ "/"
-        UB.mkdir(self.bundleLoc)
+
     def saveSvgsAndPython(self):
         print("Saving")
         SVG.saveSVG(self.svg, self.name + "_" + self.timeTag, self.bundleLoc, "_main")
