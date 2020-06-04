@@ -99,6 +99,7 @@ class DirectAuthoringGenerator:
         self.axidrawWriters[writerIdx].write("ad.penup()\n")
     def addPenDown(self,writerIdx):
         self.axidrawWriters[writerIdx].write("ad.pendown()\n")
+
     def addDrawPt(self,dotCenter,writerIdx,withMargin=True):
         '''
         use only up and down
@@ -158,19 +159,10 @@ class DirectAuthoringGenerator:
             toolIdx = self.getRandomToolId()
 
         self.axidrawPathCollection[toolIdx].append(pathPoints)
-    def closeFiles(self, checkBoundary=True):
+    def closeFiles(self):
         if hasattr(self, "axidrawPathCollection"):
-            print("exporting to " + self.getFullSaveLoc())
-            # perform all appending
-            self.initNewAxidrawWriter(additionalTag="master")
-
             for i, coll in enumerate(self.axidrawPathCollection):
                 for pathPoints in coll:
-                    if checkBoundary:
-                        minX, maxX, minY, maxY = SHAPE.getBoundaryBoxPtsVersion(pathPoints)
-                        if minX > self.wh_m[0] or minY > self.wh_m[1]:
-                            continue
-                        SHAPE.pressIntoABox(pathPoints, 0, 0, self.wh_m[0], self.wh_m[1])
                     self.addDrawing(pathPoints, i)
                     self.addDrawing(pathPoints, -1)
                     self.addPath(self.svg.g, SHAPE.getStraightPath(pathPoints), self.svg, self.tools[i])
@@ -180,7 +172,9 @@ class DirectAuthoringGenerator:
                 self.addMoveTo([0, 0], i, withMargin=False)
 
         for axidrawWriter in self.axidrawWriters:
+            axidrawWriter.write("\nad.disconnect()\nprint('end')\n####")
             axidrawWriter.close()
+
     def saveFiles(self):
         self.closeFiles()
         if hasattr(self, "svg"):

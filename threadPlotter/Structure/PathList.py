@@ -54,12 +54,15 @@ class PathList:
         pt = POINT.Point(x,y)
         self.points.append(pt)
 
-
+    def __len__(self):
+        return len(self.points)
     def copy(self):
         '''
         :return: a deep copy
         '''
         return PathList(starterArray=self.exportPlainList())
+    def getPtByIdx(self,idx):
+        return self.points[idx]
 
     def getBBox(self):
         '''

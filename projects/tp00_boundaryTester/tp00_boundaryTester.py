@@ -23,12 +23,12 @@ settings={
     "spec":{
         #stores any user-defined specs
         "segmentLength":0.04,#inches
-        "trailStitchLength":0.1,
-
+        "trailStitchLength":0.15,
         "trailLoopDepthPerc":35,
         "plotterSettingRange":{
             "speedPercRange":[20,80],
-            "depthPercRange":[35,100],#The range(%) that the z axis can move. 100% corresponds to the longest stitch whereas 55
+            "depthPercRange":[35,100],#The range(%) that the z axis can move. 100% corresponds to the longest stitch whereas 55,
+            "distanceRange":[0.03,0.15] #inches
         }
     }
 

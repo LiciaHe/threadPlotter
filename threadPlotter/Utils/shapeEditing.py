@@ -46,3 +46,8 @@ def pressIntoABox(points,xmin,ymin,xmax,ymax):
             p[0] = xmax
         if y > ymax:
             p[1] = ymax
+def getStraightPath(pointArr,closed=False):
+    p="M"+" L".join([",".join([str(round(l,2)) for l in xy[:2]]) for xy in pointArr])
+    if closed:
+        return p+"Z"
+    return p

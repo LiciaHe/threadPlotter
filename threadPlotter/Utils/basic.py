@@ -31,17 +31,19 @@ def unitConvert(val,unit,i2p=96):
         multiplier=i2cm*10
     return multiplier*val
 
-def makeIntLinearMap(rangeMin,rangeMax,domainCount):
+def linearScale(inputVal,domainArr,rangeArr):
     '''
-    goes
-    :param rangeMin:
-    :param rangeMax:
-    :param domainCount: a list of mapped values that goes from low to high
+    d3 linearScale
+    :param input:
+    :param domainArr:
+    :param rangeArr:
     :return:
     '''
-    dist=(rangeMax-rangeMin)/domainCount
-    #[int(rangeMax - i * dist) for i, c in range(domainCount)]
-    return lambda i:rangeMax-i*dist if i<domainCount and i>-1 else None
+    inputDiff = domainArr[1] - domainArr[0]
+    outputDiff = rangeArr[1] - rangeArr[0]
+    if inputVal - domainArr[0] == 0:
+        return rangeArr[0]
+    return (inputVal - domainArr[0]) / inputDiff * outputDiff + rangeArr[0]
 def load_object(fileName):
 
     with open(fileName, 'rb') as inputF:

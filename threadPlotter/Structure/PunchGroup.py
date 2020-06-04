@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(1,"../../../")
-import Utils.PathList as PL
-import SvgManipulation.shapeMaker as SHAPE
+import threadPlotter.Structure.PathList as PL
+import threadPlotter.Utils.shapeEditing as SHAPE
 class TransformError(Exception):
     def __init__(self, *args):
         if args:
@@ -10,7 +10,7 @@ class TransformError(Exception):
             self.message=""
     def __str__(self):
         return self.message+" contains transformation. Make sure your svg has a flat structure(avoid applying transformations in groups),and all paths have no transformation."
-class Element:
+class PunchGroup:
     '''
     contains one path
     modify path
@@ -43,7 +43,7 @@ class Element:
     def copy(self,id=None):
         if id==None:
             id=str(self.id)+"_copy"
-        return Element(self.exportToPlainList(),id)
+        return PunchGroup(self.exportToPlainList(),id)
     def adjustOriginToCenter(self):
         self.originalCenter=self.pathList.adjustOriginToCenter()
     def translate(self,x,y):
@@ -89,9 +89,17 @@ class Element:
         self.pathList=self.originalPathList.copy()
         self.getBBox()
     def exportToPlainList(self,precision=2):
-        return self.pathList.exportPlainList(precision=2)
-    def getPtCt(self):
-        return self.pathList.getLength()
+        return self.pathList.exportPlainList(precision=precision)
+    def __len__(self):
+        return len(self.pathList)
+    def getFirstPt(self):
+        if len(self.pathList)==0:
+            return None
+        return self.pathList.getPtByIdx(0)
+    def getLastPt(self):
+        if len(self.pathList)==0:
+            return None
+        return self.pathList.getPtByIdx(-1)
 
     def __str__(self):
         return self.exportToStr()

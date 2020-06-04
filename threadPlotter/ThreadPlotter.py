@@ -5,6 +5,8 @@ One project is associated with one design, and can output to svgs and python fil
 
 from threadPlotter.DirectAuthoringGenerator import DirectAuthoringGenerator as DirectAuthoringGenerator
 import threadPlotter.Utils.basic as UB
+import threadPlotter.Utils.shapeEditing as SHAPE
+import json
 
 class ThreadPlotter(DirectAuthoringGenerator):
 
@@ -14,11 +16,55 @@ class ThreadPlotter(DirectAuthoringGenerator):
         :return:
         '''
         plotterSettingRange=self.currentSpec["plotterSettingRange"]
-        depthRange=plotterSettingRange["depthPercRange"]
-        speedRange=plotterSettingRange["speedPercRange"]
+        self.depthRange=plotterSettingRange["depthPercRange"]
+        self.speedRange=plotterSettingRange["speedPercRange"]
+        distanceRange=plotterSettingRange["distanceRange"]
+        self.distanceRange=[UB.unitConvert(d,self.unit,self.i2p) for d in distanceRange]
 
-        self.depthMapFunc =UB.makeIntLinearMap(depthRange[0],depthRange[1],self.toolsCt)
-        self.speedMapFunc =UB.makeIntLinearMap(speedRange[0],speedRange[1],self.toolsCt)
+    def depthSpeedCalculator(self,distances):
+        '''
+        given distance, calculate speed and depth
+
+        :param distance: a list of distances (in px)
+        :return:
+        '''
+        disReq={}
+        for dist in distances:
+            speed=UB.linearScale(dist,self.distanceRange,self.speedRange)
+            depth=UB.linearScale(dist,self.distanceRange,self.depthRange)
+            disReq[dist]={"pen_pos_down":int(depth),"pen_rate_raise":int(speed)}
+        return disReq
+    def addTrailPoint(self,startPt,endPt,writerIdx):
+        trailSetting=self.punchSetting["trail"]
+
+    def closeFiles(self):
+        print("exporting to " + self.getFullSaveLoc())
+        self.initNewAxidrawWriter(additionalTag="master")
+        for toolI,punchGroupCollection in enumerate(self.processedPointCenterCollection):
+            for pgId,punchGroupAndSettingIdx in enumerate(punchGroupCollection):
+                punchGroup=punchGroupAndSettingIdx[0]
+                setting=self.punchSetting[punchGroupAndSettingIdx[1]]
+                if pgId!=0:
+                    prePoint=self.processedPointCenterCollection[pgId-1][0][-1]
+                    firstPoint=punchGroupCollection[0]
+                    self.addTrailPoints(prePoint,firstPoint,toolI)
+                else:
+                    self.updateOptions(setting,toolI)
+                for punchCenter in punchGroup:
+                    self.addDrawPt(punchCenter,toolI)
+                    self.addDrawPt(punchCenter,-1)
+                pathStr=SHAPE.getStraightPath(punchGroup)
+                self.addPath(self.svg.g, pathStr, self.svg, self.tools[toolI])
+                if hasattr(self, "toolSvgs"):
+                    self.addPath(self.toolSvgs[toolI].g, pathStr, self.toolSvgs[toolI],
+                                 self.tools[toolI])
+
+
+    def saveFiles(self):
+        DirectAuthoringGenerator.saveFiles(self)
+        with open(self.getFullSaveLoc("tools.json"),'w') as outfile:
+            json.dump(self.tools, outfile)
+
 
 
     def __init__(self,settings,batchName="",svg=True,toolSvg=True):
@@ -27,7 +73,3 @@ class ThreadPlotter(DirectAuthoringGenerator):
         self.initSpeedAndDepthMap()
         self.segmentLength=UB.unitConvert(self.currentSpec["segmentLength"],self.unit,self.i2p)
         self.trailStitchLength=UB.unitConvert(self.currentSpec["trailStitchLength"],self.unit,self.i2p)
-
-
-
-
