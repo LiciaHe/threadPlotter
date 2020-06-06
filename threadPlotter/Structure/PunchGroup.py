@@ -1,6 +1,5 @@
-import sys
-sys.path.insert(1,"../../../")
-import threadPlotter.Structure.PathList as PL
+
+from threadPlotter.Structure.PathList import PathList
 import threadPlotter.Utils.shapeEditing as SHAPE
 class TransformError(Exception):
     def __init__(self, *args):
@@ -10,7 +9,15 @@ class TransformError(Exception):
             self.message=""
     def __str__(self):
         return self.message+" contains transformation. Make sure your svg has a flat structure(avoid applying transformations in groups),and all paths have no transformation."
-class PunchGroup:
+class InvalidPathPointInput(Exception):
+    def __init__(self, *args):
+        if args:
+            self.message=args[0]
+        else:
+            self.message=""
+    def __str__(self):
+        return self.message+" is not a valid list, str, PathList object, or beautiful soup object."
+class PunchGroup(PathList):
     '''
     contains one path
     modify path
@@ -25,54 +32,39 @@ class PunchGroup:
         self.id = id
         if isinstance(pathInput,list):
             #process from pathList
-            self.pathList = PL.PathList(starterArray=pathInput)
-        elif isinstance(pathInput,PL.PathList):
-            self.pathList=pathInput
+            PathList.__init__(self,starterArray=pathInput)
+        elif isinstance(pathInput,PathList):
+            PathList.__init__(self, starterArray=pathInput.exportPlainList())
+        elif isinstance(pathInput,str):
+            PathList.__init__(self, pathString=pathInput)
         else:
-            if "transform" in pathInput.attrs:
-                raise TransformError(pathInput)
-            d = pathInput.attrs["d"]
-            self.pathList = PL.PathList(pathString=d)
-        self.originalPathList=self.pathList.copy()
-        # self.adjustOriginToCenter()
-    def appendPathPoints(self,xyList):
-        for p in xyList:
-            self.addPoint(p[0],p[1])
-    def addPoint(self,x,y):
-        self.pathList.appendPoint(x,y)
+            try:
+                if "transform" in pathInput.attrs:
+                    raise TransformError(pathInput)
+                d = pathInput.attrs["d"]
+                PathList.__init__(self,pathString=d)
+            except:
+                raise InvalidPathPointInput(pathInput)
+        self.originalPathList=self.exportToPlainList().copy()
+
+
+    def exportToPunchNeedleReadyPoints(self,segmentLength,boundaryRect):
+        '''
+        segment the punch groups by the segment length
+        :return: a list of
+        '''
+        #todo
+
     def copy(self,id=None):
         if id==None:
             id=str(self.id)+"_copy"
         return PunchGroup(self.exportToPlainList(),id)
-    def adjustOriginToCenter(self):
-        self.originalCenter=self.pathList.adjustOriginToCenter()
-    def translate(self,x,y):
-        self.pathList.translate(x,y)
+
     def getPath(self):
         return self.pathList.getPathString()
-    def getBBox(self):
-        '''
-        return and update this bbox
-        x,y,w,h
-        :return:
-        '''
-        self.bbox=self.pathList.getBBoxWHversion()
-        return self.bbox
-    def getLoc(self,xKey,yKey):
-        center = self.getCenter()
-        xPoint={
-            "LEFT":self.bbox[0],
-            "RIGHT":self.bbox[0]+self.bbox[2],
-            "CENTER":center[0]
-        }
-        yPoint={
-            "TOP":self.bbox[1],
-            "BOTTOM":self.bbox[1]+self.bbox[3],
-            "CENTER":center[1]
-        }
-        return [xPoint[xKey],yPoint[yKey]]
-    def isClosed(self):
-        return self.pathList.closed
+
+
+
     def getCenter(self):
         self.getBBox()
         return [self.bbox[0] + self.bbox[2] / 2, self.bbox[1] + self.bbox[3]]

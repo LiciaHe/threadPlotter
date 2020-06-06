@@ -7,7 +7,7 @@ import SvgManipulation.shapeMaker as SHAPE
 import SvgManipulation.clipperHelper as CH
 
 class PathList:
-    def __init__(self,starterArray=None,pathString="",forceClosed=False):
+    def __init__(self,starterArray=None,pathString=""):
         '''
         Each pathList should contain one Path
 
@@ -53,6 +53,9 @@ class PathList:
     def appendPoint(self,x,y):
         pt = POINT.Point(x,y)
         self.points.append(pt)
+    def appendPoints(self,pointList):
+        for p in pointList:
+            self.appendPoint(p[0],p[1])
 
     def __len__(self):
         return len(self.points)
@@ -99,6 +102,8 @@ class PathList:
         '''
         ##todo
         return False
+    def isClosed(self):
+        return self.closed
     def withinSizeLimit(self,wh):
         '''
         return true if the width and height
