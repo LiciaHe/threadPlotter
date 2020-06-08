@@ -53,3 +53,5 @@ def load_object(fileName):
 def save_object(obj, filename):
     with open(filename, 'wb') as output:
         pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
+def roundPoint(point):
+    return [round(xy,2) for xy in point]

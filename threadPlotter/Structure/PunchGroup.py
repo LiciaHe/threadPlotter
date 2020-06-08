@@ -1,6 +1,8 @@
 
 from threadPlotter.Structure.PathList import PathList
-import threadPlotter.Utils.shapeEditing as SHAPE
+
+from threadPlotter.Utils.shapeEditing import pressIntoABox
+
 class TransformError(Exception):
     def __init__(self, *args):
         if args:
@@ -23,7 +25,7 @@ class PunchGroup(PathList):
     modify path
     '''
 
-    def __init__(self,pathInput,id):
+    def __init__(self,pathInput,id,segmentLengt):
         '''
         construct pathList
         Can only contain a path element
@@ -45,53 +47,25 @@ class PunchGroup(PathList):
                 PathList.__init__(self,pathString=d)
             except:
                 raise InvalidPathPointInput(pathInput)
-        self.originalPathList=self.exportToPlainList().copy()
+        self.originalPathList=self.exportPlainList().copy()
 
-
-    def exportToPunchNeedleReadyPoints(self,segmentLength,boundaryRect):
+    def exportToPunchNeedleReadyPoints(self,segmentLength,boundaryRect,addStartingTrail=False,addEndingTrail=False,minDistance=2):
         '''
         segment the punch groups by the segment length
-        :return: a list of
+        Tasks:
+        1. for each segment in the
+        :return: a list of PunchPoint objects
+
+        :param segmentLength:
+        :param boundaryRect: XMIN,YMIN,XMAX,YMAX
+        :param addStartingTrail:
+        :param addEndingTrail:
+        :param minDistance:
+        :return:
         '''
-        #todo
+        plainPoints=self.exportPlainList(precision=2)
+        SHAPE.pres
 
-    def copy(self,id=None):
-        if id==None:
-            id=str(self.id)+"_copy"
-        return PunchGroup(self.exportToPlainList(),id)
-
-    def getPath(self):
-        return self.pathList.getPathString()
-
-
-
-    def getCenter(self):
-        self.getBBox()
-        return [self.bbox[0] + self.bbox[2] / 2, self.bbox[1] + self.bbox[3]]
-    def exportToStr(self):
-        d=SHAPE.getStraightPath(self.pathList.exportPlainList())
-        return "<path d=\""+d+"\">"
-    def scaleAccordingToCenter(self,center,scaleX,scaleY):
-        self.pathList.scalePathAccordingToCenter(center,scaleX,scaleY)
-    def offset(self,dist,offsetType,jointType):
-        return self.pathList.offset(dist,offsetType,jointType)
-    def rotate(self,center,degree):
-        self.pathList.rotateAroundPoint(center,degree)
     def restore(self):
-        self.pathList=self.originalPathList.copy()
+        self.points=self.originalPathList.copy()
         self.getBBox()
-    def exportToPlainList(self,precision=2):
-        return self.pathList.exportPlainList(precision=precision)
-    def __len__(self):
-        return len(self.pathList)
-    def getFirstPt(self):
-        if len(self.pathList)==0:
-            return None
-        return self.pathList.getPtByIdx(0)
-    def getLastPt(self):
-        if len(self.pathList)==0:
-            return None
-        return self.pathList.getPtByIdx(-1)
-
-    def __str__(self):
-        return self.exportToStr()

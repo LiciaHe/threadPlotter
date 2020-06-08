@@ -2,9 +2,9 @@
 Stores paths as list
 Handles path formatting/exporting/manipulation
 '''
-import Utils.Point as POINT
-import SvgManipulation.shapeMaker as SHAPE
-import SvgManipulation.clipperHelper as CH
+import threadPlotter.Structure.Point as POINT
+import threadPlotter.Utils.shapeEditing as SHAPE
+import threadPlotter.Utils.clipperHelper as CH
 
 class PathList:
     def __init__(self,starterArray=None,pathString=""):
@@ -198,7 +198,10 @@ class PathList:
                 offsetList[0].append(offsetList[0][0].copy())
             return offsetList[0]
         return offsetList
-
+    def exportToStr(self):
+        return "<path d=\""+str(self)+"\">"
+    def __str__(self):
+        return SHAPE.getStraightPath(self.exportPlainList())
 
 
 
