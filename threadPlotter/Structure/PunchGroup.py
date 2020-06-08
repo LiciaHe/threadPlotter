@@ -2,7 +2,7 @@
 from threadPlotter.Structure.PathList import PathList
 
 from threadPlotter.Utils.shapeEditing import pressIntoABox
-
+from threadPlotter.Utils import embroideryCalculation as EC
 class TransformError(Exception):
     def __init__(self, *args):
         if args:
@@ -64,7 +64,13 @@ class PunchGroup(PathList):
         :return:
         '''
         plainPoints=self.exportPlainList(precision=2)
-        SHAPE.pres
+        if addStartingTrail:
+            plainPoints=[[0,0]]+plainPoints
+        if addEndingTrail:
+            plainPoints.append([0,0])
+        pressIntoABox(plainPoints,boundaryRect[0],boundaryRect[1],boundaryRect[2],boundaryRect[3])
+        dotList=EC.makeConnectedDots(plainPoints,segmentLength)
+        
 
     def restore(self):
         self.points=self.originalPathList.copy()

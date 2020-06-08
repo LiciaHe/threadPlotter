@@ -1,3 +1,7 @@
+from svgpathtools import parse_path,Line, Path
+import threadPlotter.Utils.basic as UB
+import math
+
 def getMidPoint(pt1,pt2):
     return [(pt1[0]+pt2[0])/2,(pt1[1]+pt2[1])/2]
 def ptToInchStr(pt,i2p,precision=None):
@@ -51,3 +55,45 @@ def getStraightPath(pointArr,closed=False):
     if closed:
         return p+"Z"
     return p
+def splitSingleLine(start_end,unitLength,toPoint=False):
+    '''
+    return strings
+    :param start_end:
+    :param unitLength:
+    :return:
+    '''
+    if UB.pointEquals(start_end[0],start_end[-1]):
+        return []
+    pathStr=getStraightPath(start_end)
+    path=parse_path(pathStr)
+    try:
+        l=path.length()
+        if l>unitLength:
+            paths=[]
+            t=unitLength/l
+            ts=0
+            te=t
+            for i in range(int(math.ceil(l/unitLength))):
+                seg=Line(path.point(ts),path.point(te))
+                p=Path(seg)
+                if toPoint:
+                    paths.append([UB.getPointFromComplex(path.point(ts)), UB.getPointFromComplex(path.point(te))])
+                else:
+                    paths.append(p.d())
+
+                ts+=t
+                te+=t
+                te=min(1,te)
+            if toPoint:
+                paths.append(
+                    [UB.getPointFromComplex(path.point(te)), UB.getPointFromComplex(path.point(1))])
+            else:
+                paths.append(getStraightPath([UB.getPointFromComplex(path.point(te)),UB.getPointFromComplex(path.point(1))]))
+            return paths
+        if toPoint:
+            return [start_end]
+        else:
+            return [pathStr]
+    except Exception as e:
+        print(start_end,"something wrong with the splitLine",e)
+        return []

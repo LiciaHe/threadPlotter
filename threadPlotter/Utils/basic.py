@@ -55,3 +55,11 @@ def save_object(obj, filename):
         pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
 def roundPoint(point):
     return [round(xy,2) for xy in point]
+
+def getPointFromComplex(complex):
+    try:
+        return roundPoint([complex.real,complex.img])
+    except Exception:
+        return roundPoint([complex.real,complex.imag])
+def pointEquals(p1,p2):
+    return int(p1[0])==int(p2[0]) and int(p1[1])==int(p2[1])
