@@ -1,7 +1,7 @@
 '''
 PROCESS and find colored thread
 '''
-import math
+import math,random
 
 from threadPlotter.Utils import basic as UB
 from itertools import combinations
@@ -70,9 +70,9 @@ def rgbToString(rgb):
 def pickThreadColor(colors):
     '''
 
-    :param colors:
+    :param colors: a list of rgb tuple
     :param additional: decide whether to load additional info
-    :return:
+    :return:plainColor,mixedColor,colorList
     '''
     # file="original_only.pkl"
     # if additional:
@@ -122,7 +122,14 @@ def exportThreadColorListPKL(seedFile="embroidery_thread_color.csv"):
             i+=1
             originalColor.append(c)
     UB.save_object(originalColor, "original_thread_list.pkl")
-
+def pickRandomRGBtuple(ct):
+    colors=[]
+    for i in range(ct):
+        colors.append([random.randint(0,255) for c in range(3)])
+    return colors
+def pickRandomThreadColor(ct):
+    colors=pickRandomRGBtuple(ct)
+    return pickThreadColor(colors)
 if __name__=="__main__":
     exportThreadColorListPKL()
 

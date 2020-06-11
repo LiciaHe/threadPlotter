@@ -6,6 +6,7 @@ One project is associated with one design, and can output to svgs and python fil
 from threadPlotter.DirectAuthoringGenerator import DirectAuthoringGenerator as DirectAuthoringGenerator
 import threadPlotter.Utils.basic as UB
 import threadPlotter.Utils.shapeEditing as SHAPE
+import threadPlotter.PunchNeedle.threadColorManagement as TM
 import json
 
 class ThreadPlotter(DirectAuthoringGenerator):
@@ -37,6 +38,10 @@ class ThreadPlotter(DirectAuthoringGenerator):
     def addTrailPoint(self,startPt,endPt,writerIdx):
         trailSetting=self.punchSetting["trail"]
 
+    def processPointCneterCollection(self):
+        #TODO
+        return
+
     def closeFiles(self):
         print("exporting to " + self.getFullSaveLoc())
         self.initNewAxidrawWriter(additionalTag="master")
@@ -59,13 +64,36 @@ class ThreadPlotter(DirectAuthoringGenerator):
                     self.addPath(self.toolSvgs[toolI].g, pathStr, self.toolSvgs[toolI],
                                  self.tools[toolI])
 
-
     def saveFiles(self):
         DirectAuthoringGenerator.saveFiles(self)
         with open(self.getFullSaveLoc("tools.json"),'w') as outfile:
             json.dump(self.tools, outfile)
+    def initThreadGroup(self,startingPathPoints=None):
+        i
 
+    def generate(self):
+        '''
+        sample generation
+        :return:
+        '''
+        return
+    def pickRandomThreadColors(self,ct=None):
+        '''
+        pick random thread colors (contains potential color mixing)
+        :param ct:
+        :return:
+        '''
+        if not ct:
+            ct=self.basicSettings["toolsCt"]
+        self.plainColor,self.mixedColor,self.colorList=TM.pickRandomThreadColor(ct)
 
+    def matchColor(self,colorList):
+        '''
+        given a color list (list of rgb tuples), match the best thread color and assign to this threadPlotter object
+        :param colorList:
+        :return:
+        '''
+        self.plainColor,self.mixedColor,self.colorList=TM.pickThreadColor(colorList)
 
     def __init__(self,settings,batchName="",svg=True,toolSvg=True):
         DirectAuthoringGenerator.__init__(self,settings,batchName=batchName,svg=svg,toolSvg=toolSvg)
@@ -73,3 +101,5 @@ class ThreadPlotter(DirectAuthoringGenerator):
         self.initSpeedAndDepthMap()
         self.segmentLength=UB.unitConvert(self.currentSpec["segmentLength"],self.unit,self.i2p)
         self.trailStitchLength=UB.unitConvert(self.currentSpec["trailStitchLength"],self.unit,self.i2p)
+        self.pickRandomThreadColors()
+        self.punchGroupCollection=[]

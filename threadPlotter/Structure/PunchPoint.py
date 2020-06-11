@@ -1,3 +1,6 @@
+'''
+potentially removalbe
+'''
 from threadPlotter.Structure.Point import Point
 from threadPlotter.Utils.shapeEditing import getStraightPath
 class PunchPoint(Point):
@@ -6,4 +9,4 @@ class PunchPoint(Point):
         self.visLength=visLength
     def exportToPathStr(self):
         return getStraightPath([self.pt,[v+1 for v in self.pt]])
-    
+

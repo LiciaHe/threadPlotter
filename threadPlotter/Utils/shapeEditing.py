@@ -97,3 +97,12 @@ def splitSingleLine(start_end,unitLength,toPoint=False):
     except Exception as e:
         print(start_end,"something wrong with the splitLine",e)
         return []
+def calculateDistBetweenPoints(p1, p2):
+    return math.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
+def calculatePathLength(pathPoints):
+    l=0
+    if len(pathPoints)<2:
+        return l
+    for i in range(1,len(pathPoints)):
+        l+=calculateDistBetweenPoints(pathPoints[i-1],pathPoints[i])
+    return l

@@ -25,7 +25,7 @@ class PunchGroup(PathList):
     modify path
     '''
 
-    def __init__(self,pathInput,id,segmentLengt):
+    def __init__(self,pathInput,id):
         '''
         construct pathList
         Can only contain a path element
@@ -69,7 +69,8 @@ class PunchGroup(PathList):
         if addEndingTrail:
             plainPoints.append([0,0])
         pressIntoABox(plainPoints,boundaryRect[0],boundaryRect[1],boundaryRect[2],boundaryRect[3])
-        dotList=EC.makeConnectedDots(plainPoints,segmentLength)
+        dotList=EC.makeConnectedDot(plainPoints,segmentLength,minDistance)
+        return dotList
         
 
     def restore(self):
