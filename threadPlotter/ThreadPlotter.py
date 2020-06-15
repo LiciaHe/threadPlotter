@@ -6,7 +6,9 @@ One project is associated with one design, and can output to svgs and python fil
 from threadPlotter.DirectAuthoringGenerator import DirectAuthoringGenerator as DirectAuthoringGenerator
 import threadPlotter.Utils.basic as UB
 import threadPlotter.Utils.shapeEditing as SHAPE
-import threadPlotter.PunchNeedle.threadColorManagement as TM
+import threadPlotter.PunchNeedle.threadColorManagement as TCM
+from threadPlotter.Structure.PunchGroup import PunchGroup
+import threadPlotter.Utils.svg as SVG
 import json
 
 class ThreadPlotter(DirectAuthoringGenerator):
@@ -35,48 +37,115 @@ class ThreadPlotter(DirectAuthoringGenerator):
             depth=UB.linearScale(dist,self.distanceRange,self.depthRange)
             disReq[dist]={"pen_pos_down":int(depth),"pen_rate_raise":int(speed)}
         return disReq
-    def addTrailPoint(self,startPt,endPt,writerIdx):
-        trailSetting=self.punchSetting["trail"]
 
-    def processPointCneterCollection(self):
-        #TODO
-        return
+
 
     def closeFiles(self):
+        '''
+        Assuming all information has been stored in the list:
+        self.punchGroupCollection
+        for each punch group, process the information contained (segment into center points) and export to svg and python.
+        :return:
+        '''
         print("exporting to " + self.getFullSaveLoc())
-        self.initNewAxidrawWriter(additionalTag="master")
-        for toolI,punchGroupCollection in enumerate(self.processedPointCenterCollection):
-            for pgId,punchGroupAndSettingIdx in enumerate(punchGroupCollection):
-                punchGroup=punchGroupAndSettingIdx[0]
-                setting=self.punchSetting[punchGroupAndSettingIdx[1]]
-                if pgId!=0:
-                    prePoint=self.processedPointCenterCollection[pgId-1][0][-1]
-                    firstPoint=punchGroupCollection[0]
-                    self.addTrailPoints(prePoint,firstPoint,toolI)
-                else:
-                    self.updateOptions(setting,toolI)
-                for punchCenter in punchGroup:
-                    self.addDrawPt(punchCenter,toolI)
-                    self.addDrawPt(punchCenter,-1)
-                pathStr=SHAPE.getStraightPath(punchGroup)
-                self.addPath(self.svg.g, pathStr, self.svg, self.tools[toolI])
-                if hasattr(self, "toolSvgs"):
-                    self.addPath(self.toolSvgs[toolI].g, pathStr, self.toolSvgs[toolI],
-                                 self.tools[toolI])
+        lastPgId=len(self.punchGroupCollection)-1
+        for pgi,punchGroup in enumerate(self.punchGroupCollection):
+            toolId=punchGroup.toolId
+            dotList=punchGroup.exportToPunchNeedleReadyPoints()
+            trailList=[]
+            if pgi!=lastPgId:
+                trailList=punchGroup.exportTrailToAnotherPunchGroup(
+                    self.punchGroupCollection[pgi+1],
+                    self.trailStitchLength
+                )
+            self.updateOptions(self.stitchSetting,toolId)
+            for pt in dotList:
+                self.addDrawPt(pt,toolId)
+            self.updateOptions(self.trailStitchLength,toolId)
+            for trailPt in trailList:
+                self.addDrawPt(trailPt,toolId)
+
+            pathStr = str(punchGroup)
+            self.addPath(self.svg.g, pathStr, self.svg, self.tools[toolId])
+            if hasattr(self, "toolSvgs"):
+                self.addPath(self.toolSvgs[toolId].g, pathStr, self.toolSvgs[toolId],
+                             self.tools[toolId])
+
 
     def saveFiles(self):
+        self.closeFiles()
         DirectAuthoringGenerator.saveFiles(self)
         with open(self.getFullSaveLoc("tools.json"),'w') as outfile:
             json.dump(self.tools, outfile)
-    def initThreadGroup(self,startingPathPoints=None):
-        i
+        #export thread matching guide
+        self.generateColorPlan()
 
+    def initThreadGroup(self,toolId,startingPathPoints=None):
+        '''
+        make a thread group, append to storage.
+        :param startingPathPoints:
+        :return: index of this threadGroup
+        '''
+        pgI=len(self.punchGroupCollection)
+        self.punchGroupCollection.append(
+            PunchGroup(startingPathPoints,pgI,toolId)
+        )
+        return pgI
+    def generateColorPlan(self):
+        '''
+        export the color plan into svg and json files
+        :return:
+        '''
+
+        svg, width_height, wh_m, boundaryRect, margins=SVG.makeBasicSvgWithFoundations({"paperWidth":5,"paperHeight":len(self.colorList)*2,"inchToPx":96,"margins":{"l":0.1,"r":0.1,"t":0.1,"b":0.1}},"inch",96)
+        boxW=wh_m[0]
+        boxH=wh_m[1]/len(self.colorList)
+        fontSize=15
+        print(self.colorList)
+        for i, originalColor in enumerate(self.colorList):
+            y=boxH*i
+            SVG.addComponent(svg, svg.g, "rect",
+                             {"x": 0, "y": y, "width": boxW, "height": boxH,
+                              "fill": "none",'stroke':"black"})
+
+            #text
+            idxText=SVG.addComponent(svg,svg.g,"text",{"x":fontSize,"y":fontSize+y,"style":'font-size:'+str(fontSize)+';'})
+            idxText.string="Tool:"+str(i)+" "+self.colors[i]
+            SVG.addComponent(svg, svg.g, "rect",
+                             {"x": 0, "y": fontSize*2 + y, "width":boxW,"height":boxH/4,"fill":self.colors[i]})
+            if "mixedExpect" not in colorList[i]:
+                #make one grid
+                gridWidth=boxW
+            else:
+                gridWidth=boxW/4
+            jy=fontSize*3 + y+boxH/4
+            textY=fontSize*3 + y+boxH/2
+            # print(originalColor,colorList[i])
+            for j,cObj in enumerate(colorList[i]["c"]):
+                rgbStrToAppend=TCM.rgbToString(cObj["rgb"])
+                jx=j*gridWidth
+                SVG.addComponent(svg, svg.g, "rect",
+                                 {"x": jx, "y": jy, "width": gridWidth, "height": boxH / 4,
+                                  "fill": rgbStrToAppend})
+                idxText = SVG.addComponent(svg, svg.g, "text", {"x": 0, "y": textY +fontSize+j*fontSize, "style": 'font-size:' + str(fontSize*0.8) + ';'})
+                idxText.string = "|".join(["id:"+str(cObj["i"]),"code:"+str(cObj['code']),rgbStrToAppend])
+            if "mixedExpect" in colorList[i]:
+                SVG.addComponent(svg, svg.g, "rect",
+                                 {"x": gridWidth*3, "y": jy, "width": gridWidth, "height": boxH / 4,
+                                  "fill": TCM.rgbToString(colorList[i]["mixedExpect"]),"stroke":"black"})
+
+        SVG.saveSVG(svg, self.name + "_" + self.timeTag, self.bundleLoc, "_tool")
+        with open(self.bundleLoc + "threadColor.json", 'w') as outfile:
+            json.dump({"colorList":colorList,"color":self.colors}, outfile)
     def generate(self):
         '''
         sample generation
         :return:
         '''
-        return
+        boundaryRect=SHAPE.makeRectPoints(0,0,self.wh_m[0],self.wh_m[1],closed=True)
+        self.initThreadGroup(0,boundaryRect)
+        self.saveFiles()
+
     def pickRandomThreadColors(self,ct=None):
         '''
         pick random thread colors (contains potential color mixing)
@@ -85,7 +154,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         '''
         if not ct:
             ct=self.basicSettings["toolsCt"]
-        self.plainColor,self.mixedColor,self.colorList=TM.pickRandomThreadColor(ct)
+        self.plainColor,self.mixedColor,self.colorList=TCM.pickRandomThreadColor(ct)
 
     def matchColor(self,colorList):
         '''
@@ -93,7 +162,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         :param colorList:
         :return:
         '''
-        self.plainColor,self.mixedColor,self.colorList=TM.pickThreadColor(colorList)
+        self.plainColor,self.mixedColor,self.colorList=TCM.pickThreadColor(colorList)
 
     def __init__(self,settings,batchName="",svg=True,toolSvg=True):
         DirectAuthoringGenerator.__init__(self,settings,batchName=batchName,svg=svg,toolSvg=toolSvg)
@@ -102,4 +171,6 @@ class ThreadPlotter(DirectAuthoringGenerator):
         self.segmentLength=UB.unitConvert(self.currentSpec["segmentLength"],self.unit,self.i2p)
         self.trailStitchLength=UB.unitConvert(self.currentSpec["trailStitchLength"],self.unit,self.i2p)
         self.pickRandomThreadColors()
+        self.stitchSetting=self.depthSpeedCalculator(self.segmentLength)
+        self.trailStitchSetting=self.depthSpeedCalculator(self.trailStitchLength)
         self.punchGroupCollection=[]

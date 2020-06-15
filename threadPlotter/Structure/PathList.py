@@ -73,8 +73,8 @@ class PathList:
         :return:
         '''
         # print(self.points)
-        bbox=SHAPE.getBbox(self.exportPlainList())
-        # bbox=SHAPE.getBbox(self.getPathString())
+        bbox=SHAPE.getBoundaryBoxPtsVersion(self.exportPlainList())
+
         self.bbox=bbox
         # print(bbox)
         self.w=bbox[1]-bbox[0]
@@ -200,6 +200,7 @@ class PathList:
         return offsetList
     def exportToStr(self):
         return "<path d=\""+str(self)+"\">"
+
     def __str__(self):
         return SHAPE.getStraightPath(self.exportPlainList())
 

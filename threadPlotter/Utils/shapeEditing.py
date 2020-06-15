@@ -106,3 +106,8 @@ def calculatePathLength(pathPoints):
     for i in range(1,len(pathPoints)):
         l+=calculateDistBetweenPoints(pathPoints[i-1],pathPoints[i])
     return l
+def makeRectPoints(x,y,w,h,closed=False):
+    pts=[[x,y],[x+w,y],[x+w,y+h],[x,y+h]]
+    if closed:
+        pts.append([x,y])
+    return pts

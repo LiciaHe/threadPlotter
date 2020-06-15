@@ -25,14 +25,17 @@ class PunchGroup(PathList):
     modify path
     '''
 
-    def __init__(self,pathInput,id):
+    def __init__(self,pathInput,id,toolId):
         '''
         construct pathList
         Can only contain a path element
         :param path:
         '''
         self.id = id
-        if isinstance(pathInput,list):
+        self.toolId=toolId
+        if pathInput==None:
+            PathList.__init__(self)
+        elif isinstance(pathInput,list):
             #process from pathList
             PathList.__init__(self,starterArray=pathInput)
         elif isinstance(pathInput,PathList):
@@ -71,7 +74,19 @@ class PunchGroup(PathList):
         pressIntoABox(plainPoints,boundaryRect[0],boundaryRect[1],boundaryRect[2],boundaryRect[3])
         dotList=EC.makeConnectedDot(plainPoints,segmentLength,minDistance)
         return dotList
-        
+
+    def exportTrailToAnotherPunchGroup(self,punchGroup2,trailLength,minDistance=2):
+        '''
+        return a list of trail point centers that connects to pucnh group 2
+        :param punchGroup2:
+        :return:
+        '''
+        thisPoint=self.points[-1]
+        nextPt=punchGroup2.getPtByIdx(0)
+        dotList = EC.makeConnectedDot([thisPoint.copy(),nextPt.copy()], trailLength, minDistance)
+        return dotList
+
+
 
     def restore(self):
         self.points=self.originalPathList.copy()
