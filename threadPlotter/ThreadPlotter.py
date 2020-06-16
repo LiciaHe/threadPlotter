@@ -49,7 +49,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         for each punch group, process the information contained (segment into center points) and export to svg and python.
         :return:
         '''
-        print("exporting to " + self.getFullSaveLoc())
+        # print("exporting to " + self.getFullSaveLoc())
         lastPgId=len(self.punchGroupCollection)-1
         boundaryBox=[0,0,self.wh_m[0],self.wh_m[1]]
         for pgi,punchGroup in enumerate(self.punchGroupCollection):
@@ -64,7 +64,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
             self.updateOptions(self.stitchSetting,toolId)
             for pt in dotList:
                 self.addDrawPt(pt,toolId)
-            self.updateOptions(self.trailStitchLength,toolId)
+            self.updateOptions(self.trailStitchSetting,toolId)
             for trailPt in trailList:
                 self.addDrawPt(trailPt,toolId)
 
@@ -78,8 +78,6 @@ class ThreadPlotter(DirectAuthoringGenerator):
     def saveFiles(self):
         self.closeFiles()
         DirectAuthoringGenerator.saveFiles(self)
-        with open(self.getFullSaveLoc("tools.json"),'w') as outfile:
-            json.dump(self.tools, outfile)
         #export thread matching guide
         self.generateColorPlan()
 
@@ -99,14 +97,13 @@ class ThreadPlotter(DirectAuthoringGenerator):
         export the color plan into svg and json files
         :return:
         '''
-        print(self.colorList)
 
         svg, width_height, wh_m, boundaryRect, margins=SVG.makeBasicSvgWithFoundations({"paperWidth":5,"paperHeight":len(self.colorList)*2,"inchToPx":96,"margins":{"l":0.1,"r":0.1,"t":0.1,"b":0.1}},"inch",96)
         boxW=wh_m[0]
         boxH=wh_m[1]/len(self.colorList)
         fontSize=15
-        print(self.colorList)
         for i, originalColor in enumerate(self.colorList):
+            rgb="RGB("+",".join([str(s) for s in self.rgbList[i]])+")"
             y=boxH*i
             SVG.addComponent(svg, svg.g, "rect",
                              {"x": 0, "y": y, "width": boxW, "height": boxH,
@@ -114,10 +111,10 @@ class ThreadPlotter(DirectAuthoringGenerator):
 
             #text
             idxText=SVG.addComponent(svg,svg.g,"text",{"x":fontSize,"y":fontSize+y,"style":'font-size:'+str(fontSize)+';'})
-            idxText.string="Tool:"+str(i)+" "+self.colors[i]
+            idxText.string="Tool:"+str(i)+" "+str(rgb)
             SVG.addComponent(svg, svg.g, "rect",
-                             {"x": 0, "y": fontSize*2 + y, "width":boxW,"height":boxH/4,"fill":self.colors[i]})
-            if "mixedExpect" not in colorList[i]:
+                             {"x": 0, "y": fontSize*2 + y, "width":boxW,"height":boxH/4,"fill":rgb})
+            if "mixedExpect" not in originalColor:
                 #make one grid
                 gridWidth=boxW
             else:
@@ -125,7 +122,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
             jy=fontSize*3 + y+boxH/4
             textY=fontSize*3 + y+boxH/2
             # print(originalColor,colorList[i])
-            for j,cObj in enumerate(colorList[i]["c"]):
+            for j,cObj in enumerate(originalColor["c"]):
                 rgbStrToAppend=TCM.rgbToString(cObj["rgb"])
                 jx=j*gridWidth
                 SVG.addComponent(svg, svg.g, "rect",
@@ -133,14 +130,14 @@ class ThreadPlotter(DirectAuthoringGenerator):
                                   "fill": rgbStrToAppend})
                 idxText = SVG.addComponent(svg, svg.g, "text", {"x": 0, "y": textY +fontSize+j*fontSize, "style": 'font-size:' + str(fontSize*0.8) + ';'})
                 idxText.string = "|".join(["id:"+str(cObj["i"]),"code:"+str(cObj['code']),rgbStrToAppend])
-            if "mixedExpect" in colorList[i]:
+            if "mixedExpect" in originalColor:
                 SVG.addComponent(svg, svg.g, "rect",
                                  {"x": gridWidth*3, "y": jy, "width": gridWidth, "height": boxH / 4,
-                                  "fill": TCM.rgbToString(colorList[i]["mixedExpect"]),"stroke":"black"})
+                                  "fill": TCM.rgbToString(originalColor["mixedExpect"]),"stroke":"black"})
 
-        SVG.saveSVG(svg, self.name + "_" + self.timeTag, self.bundleLoc, "_tool")
-        with open(self.bundleLoc + "threadColor.json", 'w') as outfile:
-            json.dump({"colorList":colorList,"color":self.colors}, outfile)
+        SVG.saveSVG(svg, fullPath=self.getFullSaveLoc("tool")+".svg")
+        with open(self.getFullSaveLoc("threadColor")+ ".json", 'w') as outfile:
+            json.dump({"colorList":self.colorList,"tools":self.tools}, outfile)
     def generate(self):
         '''
         sample generation

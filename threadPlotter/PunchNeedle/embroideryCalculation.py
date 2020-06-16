@@ -17,9 +17,11 @@ def makeConnectedDot(pathPoints,segmentLength,minDist):
         if i==0:
             continue
         pt0=pathPoints[i-1]
-        dotCenters += SHAPE.splitSingleLine([pt0, pt], segmentLength,toPoint=True)
-
+        splitLines=SHAPE.splitSingleLine([pt0, pt], segmentLength,toPoint=True)
+        for dotCenter in splitLines:
+            dotCenters +=dotCenter
     i=1
+
     while i <len(dotCenters)-1:
         j=i+1
         if SHAPE.calculateDistBetweenPoints(dotCenters[i],dotCenters[j])<minDist:
