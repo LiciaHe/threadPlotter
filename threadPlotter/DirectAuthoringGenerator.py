@@ -238,7 +238,7 @@ class DirectAuthoringGenerator:
                 self.toolSvgs=[]
                 for i in range(len(self.tools)):
                     svg, wh, whm, br, m = SVG.makeBasicSvgWithFoundations(
-                        self.basicSettings)
+                        self.basicSettings,unit=self.unit,i2p=self.i2p)
                     self.toolSvgs.append(svg)
         for i in range(len(self.tools)):
             self.initNewAxidrawWriter()

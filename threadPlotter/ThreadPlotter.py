@@ -24,19 +24,21 @@ class ThreadPlotter(DirectAuthoringGenerator):
         distanceRange=plotterSettingRange["distanceRange"]
         self.distanceRange=[UB.unitConvert(d,self.unit,self.i2p) for d in distanceRange]
 
-    def depthSpeedCalculator(self,distances):
+    def depthSpeedCalculator_batch(self,distance):
+        storage={}
+        for dist in distance:
+            storage[dist]=self.depthSpeedCalculator(dist)
+        return storage
+    def depthSpeedCalculator(self,dist):
         '''
         given distance, calculate speed and depth
 
         :param distance: a list of distances (in px)
         :return:
         '''
-        disReq={}
-        for dist in distances:
-            speed=UB.linearScale(dist,self.distanceRange,self.speedRange)
-            depth=UB.linearScale(dist,self.distanceRange,self.depthRange)
-            disReq[dist]={"pen_pos_down":int(depth),"pen_rate_raise":int(speed)}
-        return disReq
+        speed = UB.linearScale(dist, self.distanceRange, self.speedRange)
+        depth = UB.linearScale(dist, self.distanceRange, self.depthRange)
+        return {"pen_pos_down": int(depth), "pen_rate_raise": int(speed)}
 
 
 
@@ -49,9 +51,10 @@ class ThreadPlotter(DirectAuthoringGenerator):
         '''
         print("exporting to " + self.getFullSaveLoc())
         lastPgId=len(self.punchGroupCollection)-1
+        boundaryBox=[0,0,self.wh_m[0],self.wh_m[1]]
         for pgi,punchGroup in enumerate(self.punchGroupCollection):
             toolId=punchGroup.toolId
-            dotList=punchGroup.exportToPunchNeedleReadyPoints()
+            dotList=punchGroup.exportToPunchNeedleReadyPoints(self.segmentLength,boundaryBox)
             trailList=[]
             if pgi!=lastPgId:
                 trailList=punchGroup.exportTrailToAnotherPunchGroup(
@@ -96,6 +99,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         export the color plan into svg and json files
         :return:
         '''
+        print(self.colorList)
 
         svg, width_height, wh_m, boundaryRect, margins=SVG.makeBasicSvgWithFoundations({"paperWidth":5,"paperHeight":len(self.colorList)*2,"inchToPx":96,"margins":{"l":0.1,"r":0.1,"t":0.1,"b":0.1}},"inch",96)
         boxW=wh_m[0]
@@ -154,8 +158,11 @@ class ThreadPlotter(DirectAuthoringGenerator):
         '''
         if not ct:
             ct=self.basicSettings["toolsCt"]
-        self.plainColor,self.mixedColor,self.colorList=TCM.pickRandomThreadColor(ct)
-
+        self.rgbList,self.colorList=TCM.pickRandomThreadColor(ct)
+        for i in range(ct):
+            self.tools[i]["stroke"]="RGB("+",".join([str(s) for s in self.rgbList[i]])+")"
+        # print(self.tools)
+        print("picked random color:",self.tools)
     def matchColor(self,colorList):
         '''
         given a color list (list of rgb tuples), match the best thread color and assign to this threadPlotter object

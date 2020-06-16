@@ -76,7 +76,7 @@ def pickThreadColor(colors):
     '''
     # file="original_only.pkl"
     # if additional:
-    file="threadColor.pkl"
+    file="../../threadPlotter/PunchNeedle/threadColor.pkl"
     colorMap=UB.load_object(file)
     plainColor={}
     mixedColor={}
@@ -122,14 +122,20 @@ def exportThreadColorListPKL(seedFile="embroidery_thread_color.csv"):
             i+=1
             originalColor.append(c)
     UB.save_object(originalColor, "original_thread_list.pkl")
-def pickRandomRGBtuple(ct):
-    colors=[]
-    for i in range(ct):
-        colors.append([random.randint(0,255) for c in range(3)])
-    return colors
+
 def pickRandomThreadColor(ct):
-    colors=pickRandomRGBtuple(ct)
-    return pickThreadColor(colors)
+    file = "../../threadPlotter/PunchNeedle/threadColor.pkl"
+    colorMap = UB.load_object(file)
+    colorList = []
+    rgbList=[]
+
+    for i in range(ct):
+        pick=random.choice(colorMap["original"])
+        colorList.append({"c":[pick]})
+        rgbList.append(pick["rgb"])
+
+
+    return rgbList,colorList
 if __name__=="__main__":
     exportThreadColorListPKL()
 

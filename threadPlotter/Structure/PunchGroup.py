@@ -67,6 +67,7 @@ class PunchGroup(PathList):
         :return:
         '''
         plainPoints=self.exportPlainList(precision=2)
+        print(plainPoints)
         if addStartingTrail:
             plainPoints=[[0,0]]+plainPoints
         if addEndingTrail:

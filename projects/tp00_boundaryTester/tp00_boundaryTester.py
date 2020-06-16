@@ -5,6 +5,7 @@ import sys
 sys.path.insert(1,"../../")
 # from threadPlotter.ThreadPlotter import ThreadPlotter as TP
 from threadPlotter.DirectAuthoringGenerator import DirectAuthoringGenerator as DAG
+from threadPlotter.ThreadPlotter import ThreadPlotter as TP
 
 settings={
     "name":"tp00_boundaryTester",#name of the project
@@ -34,4 +35,5 @@ settings={
 
 }
 
-test=DAG(settings)
+test=TP(settings)
+test.generate()
