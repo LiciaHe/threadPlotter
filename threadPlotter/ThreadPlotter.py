@@ -121,7 +121,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
                 gridWidth=boxW/4
             jy=fontSize*3 + y+boxH/4
             textY=fontSize*3 + y+boxH/2
-            # print(originalColor,colorList[i])
+
             for j,cObj in enumerate(originalColor["c"]):
                 rgbStrToAppend=TCM.rgbToString(cObj["rgb"])
                 jx=j*gridWidth
