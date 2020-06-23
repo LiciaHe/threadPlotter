@@ -13,7 +13,7 @@ The following video briefly introduce the motivation for building this tool and 
 
 You might also be interested in this 10 minutes presentation that goes over the project in depth. 
 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![youtubePresentation](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 
 If you are interested in using this this toolkit, please consider citing our paper:[Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters](http://www.cond.org/punchneedle.html)
 ```
