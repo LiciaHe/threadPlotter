@@ -81,7 +81,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         #export thread matching guide
         self.generateColorPlan()
 
-    def initThreadGroup(self,toolId,startingPathPoints=None):
+    def initPunchGroup(self,toolId,startingPathPoints=None):
         '''
         make a thread group, append to storage.
         :param startingPathPoints:
@@ -143,9 +143,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         sample generation
         :return:
         '''
-        boundaryRect=SHAPE.makeRectPoints(0,0,self.wh_m[0],self.wh_m[1],closed=True)
-        self.initThreadGroup(0,boundaryRect)
-        self.saveFiles()
+        return
 
     def pickRandomThreadColors(self,ct=None):
         '''

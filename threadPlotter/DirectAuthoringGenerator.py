@@ -12,9 +12,8 @@ import datetime,random
 
 class DirectAuthoringGenerator:
     #storage-related
-    def initStorage(self, makeDate=True):
-        baseSaveLoc = "C:/licia/art/generative/"
-        self.saveLoc = baseSaveLoc + self.name + "/"
+    def initStorage(self, makeDate=True,self.baseSaveLoc):
+        self.saveLoc = self.baseSaveLoc + self.name + "/"
         UB.mkdir(self.saveLoc)
         # everything is stored here
         if makeDate:

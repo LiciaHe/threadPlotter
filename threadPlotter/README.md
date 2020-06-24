@@ -21,11 +21,21 @@ If you are interested in using this this toolkit, please consider citing our pap
 ```
  ##How?
  To convert your X-Y plotter into a punch needle fabricator, we will follow the following steps:
-  1. Ensure that your plotter is suitable for the task. 
-  2. Acquire or create several physical components such as needle, fabric, and frame.
+  1. Ensure that your plotter is suitable for the task. ([tutorial 1](../tutorial/step1_plotterCheck.md))
+  2. Acquire or create several physical components such as needle, fabric, and frame. ([tutorial 2](../tutorial/step2_physicalSetup.md))
   3. Design a punch needle pattern. 
+     1. [tutorial 3: pattern making overview](../tutorial/step3_patternMaking.md)
+     2. [tutorial 4: advanced examples](../tutorial/step4_advancedExamples.md) 
   
- We highly recommend that you review our paper before getting started. When you are ready, click on each of the links above.   
+ We highly recommend that you review our paper before getting started. When you are ready, click on each of the links above.
+    
+ ## Show us! Tell us! Ask us! Credit us!
+ We are excited to see what you can create with this fabrication technique. The toolkit is developed and tested by Licia (on her plotter called "Kitty"). If you have questions about the toolkit, feel free to open up an issue in our [github page](https://github.com/LiciaHe/threadPlotter).   
+ 
+ If you created something and want to share it with us, please use the tag [#plotterembroidery](https://www.instagram.com/explore/tags/plotterembroidery/?hl=en) on SNS. 
+ ```angular2html
+citation 
+``` 
  
  ###License
  MIT License
