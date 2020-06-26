@@ -105,19 +105,21 @@ class ThreadPlotter(DirectAuthoringGenerator):
         boxW=wh_m[0]
         boxH=wh_m[1]/len(self.colorList)
         fontSize=15
-        for i, originalColor in enumerate(self.colorList):
-            rgb="RGB("+",".join([str(s) for s in self.rgbList[i]])+")"
+        for i, colorObj in enumerate(self.colorList):
+            originalRgb="RGB("+",".join([str(s) for s in self.rgbList[i]])+")"
             y=boxH*i
             SVG.addComponent(svg, svg.g, "rect",
                              {"x": 0, "y": y, "width": boxW, "height": boxH,
                               "fill": "none",'stroke':"black"})
 
-            #text
+            #text original color
             idxText=SVG.addComponent(svg,svg.g,"text",{"x":fontSize,"y":fontSize+y,"style":'font-size:'+str(fontSize)+';'})
-            idxText.string="Tool:"+str(i)+" "+str(rgb)
+            idxText.string="Tool:"+str(i)+" "+str(originalRgb)
             SVG.addComponent(svg, svg.g, "rect",
-                             {"x": 0, "y": fontSize*2 + y, "width":boxW,"height":boxH/4,"fill":rgb})
-            if "mixedExpect" not in originalColor:
+                             {"x": 0, "y": fontSize*2 + y, "width":boxW,"height":boxH/4,"fill":originalRgb})
+
+            #generate matched color
+            if "mixedExpect" not in colorObj:
                 #make one grid
                 gridWidth=boxW
             else:
@@ -125,7 +127,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
             jy=fontSize*3 + y+boxH/4
             textY=fontSize*3 + y+boxH/2
 
-            for j,cObj in enumerate(originalColor["c"]):
+            for j,cObj in enumerate(colorObj["c"]):
                 rgbStrToAppend=TCM.rgbToString(cObj["rgb"])
                 jx=j*gridWidth
                 SVG.addComponent(svg, svg.g, "rect",
@@ -133,11 +135,11 @@ class ThreadPlotter(DirectAuthoringGenerator):
                                   "fill": rgbStrToAppend})
                 idxText = SVG.addComponent(svg, svg.g, "text", {"x": 0, "y": textY +fontSize+j*fontSize, "style": 'font-size:' + str(fontSize*0.8) + ';'})
                 idxText.string = "|".join(["id:"+str(cObj["i"]),"code:"+str(cObj['code']),rgbStrToAppend])
-            if "mixedExpect" in originalColor:
+            if "mixedExpect" in colorObj:
                 SVG.addComponent(svg, svg.g, "rect",
                                  {"x": gridWidth*3, "y": jy, "width": gridWidth, "height": boxH / 4,
-                                  "fill": TCM.rgbToString(originalColor["mixedExpect"]),"stroke":"black"})
-
+                                  "fill": TCM.rgbToString(colorObj["mixedExpect"]),"stroke":"black"})
+        #save
         SVG.saveSVG(svg, fullPath=self.getFullSaveLoc("tool")+".svg")
         with open(self.getFullSaveLoc("threadColor")+ ".json", 'w') as outfile:
             json.dump({"colorList":self.colorList,"tools":self.tools}, outfile)
@@ -161,14 +163,14 @@ class ThreadPlotter(DirectAuthoringGenerator):
             self.tools[i]["stroke"]="RGB("+",".join([str(s) for s in self.rgbList[i]])+")"
         # print(self.tools)
         print("picked random color:",self.tools)
-    def matchColor(self,colorList):
+    def matchColor(self,colorList,allowMix=True):
         '''
         given a color list (list of rgb tuples), match the best thread color and assign to this threadPlotter object
         :param colorList:
         :return:
         '''
-        self.plainColor,self.mixedColor,self.colorList=TCM.pickThreadColor(colorList)
-
+        self.rgbList=colorList
+        self.plainColor,self.mixedColor,self.colorList=TCM.pickThreadColor(colorList,allowMix=allowMix)
     def __init__(self,settings,batchName="",svg=True,toolSvg=True):
         DirectAuthoringGenerator.__init__(self,settings,batchName=batchName,svg=svg,toolSvg=toolSvg)
         #extract thread plotter specific information from the settings

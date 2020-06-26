@@ -2,10 +2,9 @@
 Converting an image into a fixed grid layout
 '''
 import PIL
-from PIL import Image
 from scipy.spatial import Delaunay
 import numpy as np
-from embroidery import threadColorManagement as TCM
+from threadPlotter.PunchNeedle import threadColorManagement as TCM
 class GridImgConverter:
     def getIntensities(self,pixelization_length, pixels, i, j):
         total_red_intensity = total_green_intensity = total_blue_intensity = 0

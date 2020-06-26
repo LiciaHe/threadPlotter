@@ -136,10 +136,39 @@ Let's look at an example where we fabricate a circle with 3 colors. The full cod
 from threadPlotter.Utils import shapeEditing as SHAPE
 from threadPlotter.ThreadPlotter import ThreadPlotter as TP
 import random
-settings={...}#the setting is the same as the previous example. 
+settings={...}#the setting is the same as the previous example except for the name. 
 testPlotter=TP(settings) #create an instance
+#construct a list of random colors
+colorList=[]
+for i in range(3):
+    rgb=[random.randint(0,255) for j in range(3)]
+    colorList.append(rgb)
 
+testPlotter.matchColor(colorList)
+
+maxSize=min(testPlotter.wh_m)/2 #largest circle radius
+minSize=10 #smallest circle radius
+gap=8 #gap between each circle
+circleCt=int((maxSize-minSize)/gap)# how many circles we are going to draw
+
+for i in range(circleCt):
+    r=minSize+i*gap
+    circle=SHAPE.makeUniformPolygon(testPlotter.wh_m[0]/2,testPlotter.wh_m[1]/2,r,50,closed=True) #approximate a circle with a 50 side polygon
+    colorId=testPlotter.getRandomToolId()
+    testPlotter.initPunchGroup(colorId, circle) #get a random color and store it
+
+testPlotter.saveFiles()#export
 
 ```
+In this example, we randomly generated 3 color (in rgb) and tried to pick thread colors that are closest to the given color. The color result is stored in the _tool.svg file. We have an experimental feature of supporting thread color mixing. Nevertheless, real-world color works dramatically different than RGB computation. If you wish to avoid thread color mixing, you can use turn it off using the additional parameter "allowMix". 
+
+```python
+testPlotter.matchColor(colorList,allowMix=False)
+``` 
+ 
+### editing the color database
+We process thread colors stored in the file "PunchNeedle/embroidery_thread_color.csv" and utilize that information in the thread color matching process. If you wish to change that database, you can directly edit that file. 
+
+After editing, run the python file "updateColor" and it will update the thread-related files for you. 
 
 ## Converting an image 

@@ -43,5 +43,7 @@ install_requires=[
    'Pillow >=7.1.2',
    'pyclipper>=1.1.0.post3',
     'svgpathtools>=1.3.3',
-    'bs4 >=0.0.1'
+    'bs4 >=0.0.1',
+    'scipy',
+    'numpy'
 ]
