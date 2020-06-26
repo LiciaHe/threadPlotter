@@ -82,11 +82,10 @@ class PunchGroup(PathList):
         :param punchGroup2:
         :return:
         '''
-        thisPoint=self.points[-1]
-        nextPt=punchGroup2.getPtByIdx(0)
-        dotList = EC.makeConnectedDot([thisPoint.copy(),nextPt.copy()], trailLength, minDistance)
+        thisPoint=self.points[-1].toList()
+        nextPt=punchGroup2.getPtByIdx(0).toList()
+        dotList = EC.makeConnectedDot([thisPoint,nextPt], trailLength, minDistance)
         return dotList
-
 
 
     def restore(self):

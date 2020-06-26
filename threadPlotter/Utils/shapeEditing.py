@@ -62,7 +62,7 @@ def splitSingleLine(start_end,unitLength,toPoint=False):
     :param unitLength:
     :return:
     '''
-    if UB.pointEquals(start_end[0],start_end[-1]):
+    if UB.pointEquals(start_end[0],start_end[1]):
         return []
     pathStr=getStraightPath(start_end)
     path=parse_path(pathStr)
@@ -111,3 +111,23 @@ def makeRectPoints(x,y,w,h,closed=False):
     if closed:
         pts.append([x,y])
     return pts
+def makeUniformPolygon(x, y, r, sideCt,closed=False):
+    points = []
+    for i in range(sideCt):
+        points.append([x+r * math.cos(2 * math.pi * i / sideCt), y+r * math.sin(2 * math.pi * i / sideCt)])
+    if closed:
+        points.append(points[0].copy())
+    return points
+
+def convertListToDotStr(dotList,dist=1):
+    '''
+    Given a list of points, construct mini "dots" that are actually short lines (controlled by dist)
+    :param dotList:
+    :param dist:
+    :return: a list of path strings.
+    '''
+    strList=[]
+    for pt in dotList:
+        ps=getStraightPath([pt,[xy+dist for xy in pt]])
+        strList.append(ps)
+    return strList

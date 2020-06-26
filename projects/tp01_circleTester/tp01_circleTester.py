@@ -6,9 +6,9 @@ sys.path.insert(1,"../../")
 from threadPlotter.Utils import shapeEditing as SHAPE
 
 from threadPlotter.ThreadPlotter import ThreadPlotter as TP
-
+import random
 settings={
-    "name":"tp00_boundaryTester",#name of the project
+    "name":"tp01_circleTester",#name of the project
     "baseSaveLoc":"C:/licia/art/generative/", #specify where to save the generated files
     "basic":{
         #stores settings related to the canvas
@@ -39,26 +39,21 @@ settings={
 
 
 testPlotter=TP(settings) #create an instance
-boundaryRect = SHAPE.makeRectPoints(
-    0,
-    0,
-    testPlotter.wh_m[0],
-    testPlotter.wh_m[1],
-    closed=True
-) #making points for a rectangle.
-# wh_m is a list that stores the width and height within
-#   the plotable area (exclude margin).
-# wh_m[0] is the width, and wh_m[1] is the height.
-# The value stored is in pixels.
-# If you use inch or mm, threadPlotter will convert your settings into px.
+#construct a list of random colors
+colorList=[]
+for i in range(3):
+    rgb=[random.randint(0,255) for j in range(3)]
+    colorList.append(rgb)
 
-testPlotter.initPunchGroup(0, boundaryRect)
-#pattern information are going to be stored as
-#  PunchGroup instances. The initPunchGroup function takes
-#  an id of the thread, and a list of (unprocessed) points
+maxSize=min(testPlotter.wh_m)/2 #largest circle radius
+minSize=10 #smallest circle radius
+gap=8 #gap between each circle
+circleCt=int((maxSize-minSize)/gap)# how many circles we are going to draw
 
+for i in range(circleCt):
+    r=minSize+i*gap
+    circle=SHAPE.makeUniformPolygon(testPlotter.wh_m[0]/2,testPlotter.wh_m[1]/2,r,50,closed=True) #approximate a circle with a 50 side polygon
+    colorId=testPlotter.getRandomToolId()
+    testPlotter.initPunchGroup(colorId, circle) #get a random color and store it
 
-testPlotter.saveFiles()
-#ThreadPlotter will process the path you provided
-#  by segmenting it and connecting multiple punch groups.
-#  Then, it will export svg and python to your selected directory.
+testPlotter.saveFiles()#export

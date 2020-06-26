@@ -23,7 +23,7 @@ Alternatively, you can install using pip.
 pip install threadPlotter
 ```
 
-## Minimal Example 
+## Hello Plotter Example 
 To make a pattern, you need to initiate a ThreadPlotter instance and input pattern content. 
 
 To customize a threadPlotter, you need a dictionary to store the settings.
@@ -124,4 +124,22 @@ In the folder you selected, you should see something like this:
 
  
 
+## Thread Color 
+By default, the ThreadPlotter class is picking random thread colors for you according to the value of "toolsCt" that you have specified in the basic setting. This is achieved through the function __ThreadColor.pickRandomThreadColors()__. 
 
+Alternatively, you can produce your own color (in rgb tuples) and try to math to the thread 
+
+Let's look at an example where we fabricate a circle with 3 colors. The full code is available at [here](../projects/tp01_circleTester/tp01_circleTester.py). 
+ 
+```python
+
+from threadPlotter.Utils import shapeEditing as SHAPE
+from threadPlotter.ThreadPlotter import ThreadPlotter as TP
+import random
+settings={...}#the setting is the same as the previous example. 
+testPlotter=TP(settings) #create an instance
+
+
+```
+
+## Converting an image 

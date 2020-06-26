@@ -2,7 +2,7 @@
 Stores a point
 '''
 import math
-class NonNumericalErrow(Exception):
+class NonNumericalError(Exception):
 
     def __init__(self, *args):
         if args:
@@ -15,10 +15,21 @@ class Point:
     def __init__(self,x,y):
         self.pt=[x,y]
         if not self.isNumerical(x) or not self.isNumerical(y):
-            raise NonNumericalErrow(self.pt)
+            raise NonNumericalError(self.pt)
         # print(x,y)
     def __str__(self):
-        return str(self.pt[0])+","+str(self.pt[1])
+        precision=2
+        return str(round(self.pt[0],precision)) + "," + str(round(self.pt[1],precision))
+
+    def copy(self):
+        return Point(self.x(), self.y())
+    def toList(self):
+        '''
+        return a clone of the pt list
+        :return:
+        '''
+        return [self.pt[0],self.pt[1]]
+
     def isNumerical(self,val):
         return type(val)==int or type(val)==float
     def x(self):

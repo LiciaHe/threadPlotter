@@ -5,7 +5,8 @@ One project is associated with one design, and can output to svgs and python fil
 
 from threadPlotter.DirectAuthoringGenerator import DirectAuthoringGenerator as DirectAuthoringGenerator
 import threadPlotter.Utils.basic as UB
-import threadPlotter.Utils.shapeEditing as SHAPE
+from threadPlotter.Utils.shapeEditing import convertListToDotStr
+
 import threadPlotter.PunchNeedle.threadColorManagement as TCM
 from threadPlotter.Structure.PunchGroup import PunchGroup
 import threadPlotter.Utils.svg as SVG
@@ -49,9 +50,9 @@ class ThreadPlotter(DirectAuthoringGenerator):
         for each punch group, process the information contained (segment into center points) and export to svg and python.
         :return:
         '''
-        # print("exporting to " + self.getFullSaveLoc())
         lastPgId=len(self.punchGroupCollection)-1
         boundaryBox=[0,0,self.wh_m[0],self.wh_m[1]]
+
         for pgi,punchGroup in enumerate(self.punchGroupCollection):
             toolId=punchGroup.toolId
             dotList=punchGroup.exportToPunchNeedleReadyPoints(self.segmentLength,boundaryBox)
@@ -68,14 +69,16 @@ class ThreadPlotter(DirectAuthoringGenerator):
             for trailPt in trailList:
                 self.addDrawPt(trailPt,toolId)
 
-            pathStr = str(punchGroup)
-            self.addPath(self.svg.g, pathStr, self.svg, self.tools[toolId])
-            if hasattr(self, "toolSvgs"):
-                self.addPath(self.toolSvgs[toolId].g, pathStr, self.toolSvgs[toolId],
-                             self.tools[toolId])
+            pathStrs = convertListToDotStr(dotList+trailList)
+            for ps in pathStrs:
+                self.addPath(self.svg.g, ps, self.svg, self.tools[toolId])
+                if hasattr(self, "toolSvgs"):
+                    self.addPath(self.toolSvgs[toolId].g, ps, self.toolSvgs[toolId],
+                                 self.tools[toolId])
 
 
     def saveFiles(self):
+        print("exporting to " + self.getFullSaveLoc())
         self.closeFiles()
         DirectAuthoringGenerator.saveFiles(self)
         #export thread matching guide

@@ -12,7 +12,7 @@ import datetime,random
 
 class DirectAuthoringGenerator:
     #storage-related
-    def initStorage(self, makeDate=True,self.baseSaveLoc):
+    def initStorage(self, makeDate=True):
         self.saveLoc = self.baseSaveLoc + self.name + "/"
         UB.mkdir(self.saveLoc)
         # everything is stored here
@@ -28,7 +28,8 @@ class DirectAuthoringGenerator:
         self.currentSpec = settings[specKey] if specKey else settings.currentSetting
 
         self.basicSettings = settings[basicSettingKey] if basicSettingKey  else settings.basicSettings
-        self.baseSaveLoc=self.basicSettings["baseSaveLoc"] if "baseSaveLoc" in self.basicSettings else "/"
+
+        self.baseSaveLoc=self.settings["baseSaveLoc"] if "baseSaveLoc" in self.settings else ""
         self.initStorage()
 
 

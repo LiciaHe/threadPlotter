@@ -63,3 +63,4 @@ def getPointFromComplex(complex):
         return roundPoint([complex.real,complex.imag])
 def pointEquals(p1,p2):
     return int(p1[0])==int(p2[0]) and int(p1[1])==int(p2[1])
+
