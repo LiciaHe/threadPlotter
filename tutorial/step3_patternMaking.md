@@ -171,4 +171,34 @@ We process thread colors stored in the file "PunchNeedle/embroidery_thread_color
 
 After editing, run the python file "updateColor" and it will update the thread-related files for you. 
 
+
 ## Converting an image 
+
+We developed another class called "GridImgConverter" to help you to convert a raster image into an embroidery patter. For example, we want to convert the following image into a patter:
+
+![alt text](https://upload.wikimedia.org/wikipedia/commons/8/86/Apple-tree_blossoms_2017_G3.jpg "Apple-tree blossoms 2017 G3.jpg")
+
+The sample image is created by George Chernilevsky and released into the public domain. You can see the original image on [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Apple-tree_blossoms_2017_G3.jpg).
+
+The first step is to ensure the aspect ratio is the same with your final pattern
+'s aspect ratio. If your final pattern is 1:1, you might want to crop the image so that the width-height ratio is 1:1. You can also reduce the quality of your original image to speed up the process.
+
+![alt text](../projects/tp02_convertImg/tp02_convertImg.py "Apple-tree blossoms 2017 G3.jpg")
+
+
+
+You can initiate a ThreadPlotter instance just like the previous examples. [Full Code Here](../projects/tp02_convertImg/tp02_convertImg.py)
+
+```python
+
+import ...
+from threadPlotter.PunchNeedle.GridImgConverter import GridImgConverter
+settings={...}
+testPlotter=TP(settings) #create an instance
+#construct a list of random colors
+imageAddr="1200px-Apple-tree_blossoms_2017_G3.jpg"
+
+testPlotter.saveFiles()#export
+
+```
+

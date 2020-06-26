@@ -56,6 +56,8 @@ class ThreadPlotter(DirectAuthoringGenerator):
         for pgi,punchGroup in enumerate(self.punchGroupCollection):
             toolId=punchGroup.toolId
             dotList=punchGroup.exportToPunchNeedleReadyPoints(self.segmentLength,boundaryBox)
+            if len(dotList)<1:
+                continue
             trailList=[]
             if pgi!=lastPgId:
                 trailList=punchGroup.exportTrailToAnotherPunchGroup(
@@ -84,7 +86,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         #export thread matching guide
         self.generateColorPlan()
 
-    def initPunchGroup(self,toolId,startingPathPoints=None):
+    def initPunchGroup(self,toolId,startingPathPoints=None,skipSegment=False):
         '''
         make a thread group, append to storage.
         :param startingPathPoints:
@@ -92,7 +94,7 @@ class ThreadPlotter(DirectAuthoringGenerator):
         '''
         pgI=len(self.punchGroupCollection)
         self.punchGroupCollection.append(
-            PunchGroup(startingPathPoints,pgI,toolId)
+            PunchGroup(startingPathPoints,pgI,toolId,skipSegment)
         )
         return pgI
     def generateColorPlan(self):

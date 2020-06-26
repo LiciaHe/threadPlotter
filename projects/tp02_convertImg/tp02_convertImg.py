@@ -3,12 +3,11 @@ boundary test for the thread plotter
 '''
 import sys
 sys.path.insert(1,"../../")
-from threadPlotter.Utils import shapeEditing as SHAPE
-
 from threadPlotter.ThreadPlotter import ThreadPlotter as TP
-import random
+from threadPlotter.PunchNeedle.GridImgConverter import GridImgConverter
+from threadPlotter.PunchNeedle.threadColorManagement import rgbStrToTriplet
 settings={
-    "name":"tp01_circleTester",#name of the project
+    "name":"tp02_convertImg",#name of the project
     "baseSaveLoc":"C:/licia/art/generative/", #specify where to save the generated files
     "basic":{
         #stores settings related to the canvas
@@ -34,29 +33,32 @@ settings={
             "distanceRange":[0.03,0.15] #inches
         }
     }
-
 }
-
-
 
 testPlotter=TP(settings) #create an instance
 #construct a list of random colors
-colorList=[]
-for i in range(3):
-    rgb=[random.randint(0,255) for j in range(3)]
-    colorList.append(rgb)
-print(colorList)
-testPlotter.matchColor(colorList,allowMix=False)
+imageName="1200px-Apple-tree_blossoms_2017_G3.jpg"
+gic=GridImgConverter(
+    imgLoc="", #stored in the same folder
+    imgName=imageName,
+    colorCount=testPlotter.toolsCt,
+    imgSize=testPlotter.wh_m,
+    pixelization_length=testPlotter.segmentLength
+)
 
-maxSize=min(testPlotter.wh_m)/2 #largest circle radius
-minSize=10 #smallest circle radius
-gap=8 #gap between each circle
-circleCt=int((maxSize-minSize)/gap)# how many circles we are going to draw
+pathByColor=gic.exportOrderedGrid()
+colorListRGBstr=pathByColor.keys()
+colorList=[rgbStrToTriplet(rgbStr) for rgbStr in colorListRGBstr]
+testPlotter.matchColor(colorList)
+for toolI,colorKey in enumerate(colorListRGBstr):
+    for path in pathByColor[colorKey]:
 
-for i in range(circleCt):
-    r=minSize+i*gap
-    circle=SHAPE.makeUniformPolygon(testPlotter.wh_m[0]/2,testPlotter.wh_m[1]/2,r,50,closed=True) #approximate a circle with a 50 side polygon
-    colorId=testPlotter.getRandomToolId()
-    testPlotter.initPunchGroup(colorId, circle) #get a random color and store it
+        testPlotter.initPunchGroup(
+            toolI,
+            path,
+            skipSegment=True
+        )
+
+gic.saveImg(testPlotter.getFullSaveLoc("processedImg_"))
 
 testPlotter.saveFiles()#export

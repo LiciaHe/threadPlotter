@@ -25,7 +25,7 @@ class PunchGroup(PathList):
     modify path
     '''
 
-    def __init__(self,pathInput,id,toolId):
+    def __init__(self,pathInput,id,toolId,skipSegment):
         '''
         construct pathList
         Can only contain a path element
@@ -33,6 +33,7 @@ class PunchGroup(PathList):
         '''
         self.id = id
         self.toolId=toolId
+        self.skipSegment=skipSegment
         if pathInput==None:
             PathList.__init__(self)
         elif isinstance(pathInput,list):
@@ -67,6 +68,8 @@ class PunchGroup(PathList):
         :return:
         '''
         plainPoints=self.exportPlainList(precision=2)
+        if self.skipSegment:
+            return plainPoints
         if addStartingTrail:
             plainPoints=[[0,0]]+plainPoints
         if addEndingTrail:
@@ -82,8 +85,11 @@ class PunchGroup(PathList):
         :param punchGroup2:
         :return:
         '''
-        thisPoint=self.points[-1].toList()
-        nextPt=punchGroup2.getPtByIdx(0).toList()
+        try:
+            thisPoint = self.points[-1].toList()
+            nextPt=punchGroup2.getPtByIdx(0).toList()
+        except IndexError:
+            return []
         dotList = EC.makeConnectedDot([thisPoint,nextPt], trailLength, minDistance)
         return dotList
 

@@ -2,6 +2,11 @@
 Converting an image into a fixed grid layout
 '''
 import PIL
+try:
+    import Image
+except ImportError:
+    from PIL import Image
+
 from scipy.spatial import Delaunay
 import numpy as np
 from threadPlotter.PunchNeedle import threadColorManagement as TCM
@@ -25,8 +30,8 @@ class GridImgConverter:
         total_red_intensity = total_green_intensity = total_blue_intensity = 0
         averaging_pixel_number = pixelization_length * pixelization_length
         #
-        for k in range(0, pixelization_length):
-            for l in range(0, pixelization_length):
+        for k in range(0, int(pixelization_length)):
+            for l in range(0, int(pixelization_length)):
                 # print(pixels[i * pixelization_length + k, j * pixelization_length + l])
                 total_red_intensity += pixels[i * pixelization_length + k, j * pixelization_length + l][0]
                 total_green_intensity += pixels[i * pixelization_length + k, j * pixelization_length + l][1]
@@ -88,9 +93,9 @@ class GridImgConverter:
         :param imgSize:
         :param gridSize:
         '''
-        img = PIL.Image.open(imgLoc + imgName)
+        img = Image.open(imgLoc + imgName)
         img=img.resize([int(xy) for xy in imgSize])
-        img = img.transpose(PIL.Image.FLIP_LEFT_RIGHT)
+        img = img.transpose(Image.FLIP_LEFT_RIGHT)
         if quantize:
             img= img.quantize(colorCount)
         self.quantize=quantize
@@ -131,6 +136,7 @@ class GridImgConverter:
                     del self.pathCollection[c]
         print("finished calculation",colorCount,self.pathCollection.keys())
     def saveImg(self,loc):
+        print("save image to "+loc)
         self.img.save(loc  + "convertedImg.png")
     def replaceColors(self,lim,dotColors):
         colorCollection = set(dotColors)
