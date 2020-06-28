@@ -1,0 +1,22 @@
+Metadata-Version: 1.2
+Name: threadPlotter
+Version: 0.0.0b1
+Summary: a toolkit for designing plotter-compatible embroidery patterns
+Home-page: http://eyesofpanda.com/projects/thread_plotter/
+Author: Shiqing Licia He
+Author-email: heslicia@umich.edu
+License: MIT
+Project-URL: Documentation, https://github.com/LiciaHe/threadPlotter
+Project-URL: Project Site, http://eyesofpanda.com/projects/thread_plotter/
+Project-URL: Source, https://github.com/LiciaHe/threadPlotter
+Description: Supplementary material for the paper:Plotting with Thread:Fabricating Delicate Punch Needle Embroidery with X-Y Plotters.
+Keywords: punch needle embroidery; plotter embroidery
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Manufacturing
+Classifier: Topic :: Adaptive Technologies
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: ~=3.6

@@ -2,12 +2,12 @@
 _A toolkit for the design and fabrication of delicate punch needle embroidery using X-Y plotters_ 
  
  ##What?
-ThreadPlotter is a toolkit that supports the designing, editing, and printing of images as punch needle embroidery using a X-Y plotter. It is a supplemantary material for the paper:
+ThreadPlotter is a toolkit that supports the designing, editing, and printing of images as punch needle embroidery using an X-Y plotter. It is a supplementary material for the paper:
 
 ["Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters"
  Shiqing He, Eytan Adar, to appear, DIS'20, Honorable Mention Award](http://www.cond.org/punchneedle.html)
 
-The following video briefly introduce the motivation for building this tool and the capability of the ThreadPlotter. 
+The following video briefly introduces the motivation for building this tool and the capability of the ThreadPlotter. 
 
 [![youtube-preview](../assets/youtube-preview.png)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 
@@ -15,7 +15,7 @@ You might also be interested in this 10 minutes presentation that goes over the 
 
 [![youtubePresentation](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 
-If you are interested in using this this toolkit, please consider citing our paper:[Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters](http://www.cond.org/punchneedle.html)
+If you are interested in using this toolkit, please consider citing our paper:[Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters](http://www.cond.org/punchneedle.html)
 ```
 #todo: add citation
 ```
@@ -34,7 +34,8 @@ If you are interested in using this this toolkit, please consider citing our pap
  
  If you created something and want to share it with us, please use the tag [#plotterembroidery](https://www.instagram.com/explore/tags/plotterembroidery/?hl=en) on SNS. 
  ```angular2html
-citation 
+#todo: citation will be available soon
+ 
 ``` 
  
  ###License
