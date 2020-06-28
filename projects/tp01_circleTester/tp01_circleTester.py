@@ -2,9 +2,9 @@
 boundary test for the thread plotter
 '''
 
-from ThreadPlotter.TP_utils import shapeEditing as SHAPE
+from threadPlotter.TP_utils import shapeEditing as SHAPE
 
-from ThreadPlotter.ThreadPlotter import ThreadPlotter as TP
+from threadPlotter.ThreadPlotter import ThreadPlotter as TP
 import random
 settings={
     "name":"tp01_circleTester",#name of the project

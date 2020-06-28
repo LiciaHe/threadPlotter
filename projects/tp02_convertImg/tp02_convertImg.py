@@ -2,9 +2,9 @@
 boundary test for the thread plotter
 '''
 
-from ThreadPlotter.ThreadPlotter import ThreadPlotter as TP
-from ThreadPlotter.TP_punchneedle.GridImgConverter import GridImgConverter
-from ThreadPlotter.TP_punchneedle.threadColorManagement import rgbStrToTriplet
+from threadPlotter.ThreadPlotter import ThreadPlotter as TP
+from threadPlotter.TP_punchneedle.GridImgConverter import GridImgConverter
+from threadPlotter.TP_punchneedle.threadColorManagement import rgbStrToTriplet
 settings={
     "name":"tp02_convertImg",#name of the project
     "baseSaveLoc":"C:/licia/art/generative/", #specify where to save the generated files
