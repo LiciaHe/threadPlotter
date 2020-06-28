@@ -1,10 +1,8 @@
 '''
 boundary test for the thread plotter
 '''
-import sys
-sys.path.insert(1,"../../")
-from threadPlotter.TP_utils import shapeEditing as SHAPE
 
+from threadPlotter.TP_utils import shapeEditing as SHAPE
 from threadPlotter.ThreadPlotter import ThreadPlotter as TP
 
 settings={

@@ -1,11 +1,10 @@
 '''
 boundary test for the thread plotter
 '''
-import sys
-sys.path.insert(1,"../../")
-from threadPlotter.TP_utils import shapeEditing as SHAPE
 
-from threadPlotter.ThreadPlotter import ThreadPlotter as TP
+from ThreadPlotter.TP_utils import shapeEditing as SHAPE
+
+from ThreadPlotter.ThreadPlotter import ThreadPlotter as TP
 import random
 settings={
     "name":"tp01_circleTester",#name of the project
