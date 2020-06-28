@@ -1,11 +1,11 @@
 '''
 PROCESS and find colored thread
 '''
-import random
-
+import random,os,pkg_resources
 from threadPlotter.TP_utils import basic as UB
 
 
+PKL_PATH=pkg_resources.resource_filename('threadPlotter', 'TP_punchneedle/threadColor.pkl')
 
 def calculateColorDifference(c1,c2):
     '''
@@ -29,9 +29,9 @@ def pickThreadColor(colors,allowMix=True):
     :param additional: decide whether to load additional info
     :return:plainColor,mixedColor,colorList
     '''
-    # file="original_only.pkl"
-    # if additional:
-    file="TP_punchneedle/threadColor.pkl"
+
+    file = PKL_PATH
+
     colorMap=UB.load_object(file)
     plainColor={}
     mixedColor={}
@@ -57,7 +57,7 @@ def pickThreadColor(colors,allowMix=True):
 
 
 def pickRandomThreadColor(ct):
-    file = "TP_punchneedle/threadColor.pkl"
+    file=PKL_PATH
     colorMap = UB.load_object(file)
     colorList = []
     rgbList=[]

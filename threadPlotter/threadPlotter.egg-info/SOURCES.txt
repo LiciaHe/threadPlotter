@@ -16,7 +16,6 @@ threadPlotter/TP_punchneedle/GridImgConverter.py
 threadPlotter/TP_punchneedle/__init__.py
 threadPlotter/TP_punchneedle/embroideryCalculation.py
 threadPlotter/TP_punchneedle/embroidery_thread_color.csv
-threadPlotter/TP_punchneedle/original_only.pkl
 threadPlotter/TP_punchneedle/threadColor.pkl
 threadPlotter/TP_punchneedle/threadColorManagement.py
 threadPlotter/TP_structure/PathList.py

@@ -1,15 +1,17 @@
 from threadPlotter.TP_utils import basic as UB
 from itertools import combinations
-import math,os
+import math,os,pkg_resources
+
+PKL_PATH=pkg_resources.resource_filename('threadPlotter', 'TP_punchneedle/threadColor.pkl')
+CSV_PATH=pkg_resources.resource_filename('threadPlotter', 'TP_punchneedle/embroidery_thread_color.csv')
+
 def exportThreadColorListPKL():
     '''
     export list of thread accordingn to settings according to here:
     https://pypi.org/project/pyembroidery/
     :return:
     '''
-
-    this_dir, this_filename = os.path.split(__file__)
-    seedFile = os.path.join(this_dir, "TP_punchneedle", "embroidery_thread_color.csv")
+    seedFile = CSV_PATH
 
     originalColor=[]
     i=0
@@ -50,8 +52,7 @@ def makeColorCombinations():
     take the csv for embroidery thread color and build a python pkl. store locally
     :return:
     '''
-    this_dir, this_filename = os.path.split(__file__)
-    seedFile = os.path.join(this_dir, "TP_punchneedle", "embroidery_thread_color.csv")
+    seedFile = CSV_PATH
 
     originalColor=[]
     i=0
@@ -69,9 +70,7 @@ def makeColorCombinations():
             i+=1
             originalColor.append(c)
 
-    originalLoc = os.path.join(this_dir, "TP_punchneedle", "original_only.pkl")
 
-    UB.save_object({"original": originalColor}, originalLoc)
     combs=combinations(list(range(i))*3,3)
     combinedColor=[]
     for c1i,c2i,c3i in combs:
@@ -81,8 +80,8 @@ def makeColorCombinations():
         avgColor=getAverageColor(c1,c2,c3)
         combinedColor.append(((c1i,c2i,c3i),avgColor))
     print(len(combinedColor))
-    threadColorLoc = os.path.join(this_dir, "TP_punchneedle", "threadColor.pkl")
-    UB.save_object({"original":originalColor,"mixed":combinedColor},threadColorLoc)
+
+    UB.save_object({"original":originalColor,"mixed":combinedColor},PKL_PATH)
 
 if __name__=="__main__":
     makeColorCombinations()

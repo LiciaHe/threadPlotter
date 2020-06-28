@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='threadPlotter',
-    version='0.0.1b11',
+    version='0.0.2b2',
     description='a toolkit for designing plotter-compatible embroidery patterns',
     long_description="Supplementary material for the paper:Plotting with Thread:Fabricating Delicate Punch Needle Embroidery with X-Y Plotters.",
     url="http://eyesofpanda.com/projects/thread_plotter/",
@@ -47,7 +47,8 @@ setup(
         'scipy',
         'numpy'
     ],
-    data_files=[('threadCsv', ['threadPlotter/TP_punchneedle/embroidery_thread_color.csv']),('threadColorPkl',['threadPlotter/TP_punchneedle/threadColor.pkl']),('originalList',['threadPlotter/TP_punchneedle/original_only.pkl'])],
+    include_package_data=True,
+    # data_files=[('threadCsv', ['threadPlotter/TP_punchneedle/embroidery_thread_color.csv']),('threadColorPkl',['threadPlotter/TP_punchneedle/threadColor.pkl'])]
 
 )
 

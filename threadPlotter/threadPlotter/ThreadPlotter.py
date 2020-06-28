@@ -8,6 +8,7 @@ from threadPlotter.TP_utils.shapeEditing import convertListToDotStr
 
 from threadPlotter.TP_punchneedle import threadColorManagement as TCM
 from threadPlotter.TP_utils import basic as UB
+from threadPlotter.TP_utils import svg as SVG
 from threadPlotter.TP_structure.PunchGroup import PunchGroup
 import json
 
@@ -102,21 +103,21 @@ class ThreadPlotter(DirectAuthoringGenerator):
         :return:
         '''
 
-        svg, width_height, wh_m, boundaryRect, margins= svg.makeBasicSvgWithFoundations({"paperWidth":5, "paperHeight": len(self.colorList) * 2, "inchToPx":96, "margins":{"l":0.1, "r":0.1, "t":0.1, "b":0.1}}, "inch", 96)
+        svg, width_height, wh_m, boundaryRect, margins= SVG.makeBasicSvgWithFoundations({"paperWidth":5, "paperHeight": len(self.colorList) * 2, "inchToPx":96, "margins":{"l":0.1, "r":0.1, "t":0.1, "b":0.1}}, "inch", 96)
         boxW=wh_m[0]
         boxH=wh_m[1]/len(self.colorList)
         fontSize=15
         for i, colorObj in enumerate(self.colorList):
             originalRgb="RGB("+",".join([str(s) for s in self.rgbList[i]])+")"
             y=boxH*i
-            svg.addComponent(svg, svg.g, "rect",
+            SVG.addComponent(svg, svg.g, "rect",
                              {"x": 0, "y": y, "width": boxW, "height": boxH,
                               "fill": "none",'stroke':"black"})
 
             #text original color
-            idxText= svg.addComponent(svg, svg.g, "text", {"x":fontSize, "y": fontSize + y, "style": 'font-size:' + str(fontSize) + ';'})
+            idxText= SVG.addComponent(svg, svg.g, "text", {"x":fontSize, "y": fontSize + y, "style": 'font-size:' + str(fontSize) + ';'})
             idxText.string="Tool:"+str(i)+" "+str(originalRgb)
-            svg.addComponent(svg, svg.g, "rect",
+            SVG.addComponent(svg, svg.g, "rect",
                              {"x": 0, "y": fontSize*2 + y, "width":boxW,"height":boxH/4,"fill":originalRgb})
 
             #generate matched color
@@ -131,17 +132,17 @@ class ThreadPlotter(DirectAuthoringGenerator):
             for j,cObj in enumerate(colorObj["c"]):
                 rgbStrToAppend=TCM.rgbToString(cObj["rgb"])
                 jx=j*gridWidth
-                svg.addComponent(svg, svg.g, "rect",
+                SVG.addComponent(svg, svg.g, "rect",
                                  {"x": jx, "y": jy, "width": gridWidth, "height": boxH / 4,
                                   "fill": rgbStrToAppend})
-                idxText = svg.addComponent(svg, svg.g, "text", {"x": 0, "y": textY + fontSize + j * fontSize, "style": 'font-size:' + str(fontSize * 0.8) + ';'})
+                idxText = SVG.addComponent(svg, svg.g, "text", {"x": 0, "y": textY + fontSize + j * fontSize, "style": 'font-size:' + str(fontSize * 0.8) + ';'})
                 idxText.string = "|".join(["id:"+str(cObj["i"]),"code:"+str(cObj['code']),rgbStrToAppend])
             if "mixedExpect" in colorObj:
-                svg.addComponent(svg, svg.g, "rect",
+                SVG.addComponent(svg, svg.g, "rect",
                                  {"x": gridWidth*3, "y": jy, "width": gridWidth, "height": boxH / 4,
                                   "fill": TCM.rgbToString(colorObj["mixedExpect"]),"stroke":"black"})
         #save
-        svg.saveSVG(svg, fullPath=self.getFullSaveLoc("tool") + ".svg")
+        SVG.saveSVG(svg, fullPath=self.getFullSaveLoc("tool") + ".svg")
         with open(self.getFullSaveLoc("threadColor")+ ".json", 'w') as outfile:
             json.dump({"colorList":self.colorList,"tools":self.tools}, outfile)
     def generate(self):
