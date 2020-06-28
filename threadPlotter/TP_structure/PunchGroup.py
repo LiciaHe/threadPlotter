@@ -1,5 +1,5 @@
 
-from TP_Structure.PathList import PathList
+from TP_structure.PathList import PathList
 from TP_utils.shapeEditing import pressIntoABox
 from TP_punchneedle import embroideryCalculation as EC
 class TransformError(Exception):

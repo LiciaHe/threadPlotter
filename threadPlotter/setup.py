@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='threadPlotter',
-    version='0.0.1b3',
+    version='0.0.1b5',
     description='a toolkit for designing plotter-compatible embroidery patterns',
     long_description="Supplementary material for the paper:Plotting with Thread:Fabricating Delicate Punch Needle Embroidery with X-Y Plotters.",
     url="http://eyesofpanda.com/projects/thread_plotter/",
