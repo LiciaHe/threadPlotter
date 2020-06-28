@@ -1,7 +1,9 @@
 #ThreadPlotter
-_A toolkit for the design and fabrication of delicate punch needle embroidery using X-Y plotters_ 
+
+A toolkit for the design and fabrication of delicate punch needle embroidery using X-Y plotters_ 
  
  ##What?
+ 
 ThreadPlotter is a toolkit that supports the designing, editing, and printing of images as punch needle embroidery using an X-Y plotter. It is a supplementary material for the paper:
 
 ["Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters"
@@ -11,7 +13,7 @@ The following video briefly introduces the motivation for building this tool and
 
 YOUTUBE PRESENTATION COMING SOON
 ```python
-[![youtube-preview](../assets/youtube-preview.png)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![youtube-preview](assets/youtube-preview.png)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 ```
 
 
@@ -24,12 +26,13 @@ If you are interested in using this toolkit, please consider citing our paper:[P
 #todo: add citation
 ```
  ##How?
+ 
  To convert your X-Y plotter into a punch needle fabricator, we will follow the following steps:
-  1. Ensure that your plotter is suitable for the task. ([tutorial 1](../tutorial/step1_plotterCheck.md))
-  2. Acquire or create several physical components such as needle, fabric, and frame. ([tutorial 2](../tutorial/step2_physicalSetup.md))
+  1. Ensure that your plotter is suitable for the task. ([tutorial 1](tutorial/step1_plotterCheck.md))
+  2. Acquire or create several physical components such as needle, fabric, and frame. ([tutorial 2](tutorial/step2_physicalSetup.md))
   3. Design a punch needle pattern. 
-     1. [tutorial 3: pattern making overview](../tutorial/step3_patternMaking.md)
-     2. [tutorial 4: advanced examples](../tutorial/step4_advancedExamples.md) 
+     1. [tutorial 3: pattern making overview](tutorial/step3_patternMaking.md)
+     2. [tutorial 4: advanced examples](tutorial/step4_advancedExamples.md) 
   
  We highly recommend that you review our paper before getting started. When you are ready, click on each of the links above.
     
@@ -43,6 +46,7 @@ If you are interested in using this toolkit, please consider citing our paper:[P
 ``` 
  
  ###License
+ 
  MIT License
 
 Copyright (c) [2020] [Shiqing He]
