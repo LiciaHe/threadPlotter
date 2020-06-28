@@ -5,9 +5,9 @@ merged version of the DirectAuthoring and the MainGenerator
 Dealing with lists and does not check for valid path points
 '''
 
-import threadPlotter.Utils.svg as SVG
-import threadPlotter.Utils.shapeEditing as SHAPE
-import threadPlotter.Utils.basic as UB
+import TP_utils.svg as SVG
+import TP_utils.shapeEditing as SHAPE
+import TP_utils.basic as UB
 import datetime,random
 
 class DirectAuthoringGenerator:

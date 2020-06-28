@@ -1,5 +1,5 @@
 from svgpathtools import parse_path,Line, Path
-import threadPlotter.Utils.basic as UB
+import ThreadPlotter.Utils.basic as UB
 import math
 
 def getMidPoint(pt1,pt2):

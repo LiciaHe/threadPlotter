@@ -3,13 +3,13 @@ threadPlotter is a class that contains all the basic functions for generating a 
 One project is associated with one design, and can output to svgs and python files (for Axidraw)
 '''
 
-from threadPlotter.DirectAuthoringGenerator import DirectAuthoringGenerator as DirectAuthoringGenerator
-import threadPlotter.Utils.basic as UB
-from threadPlotter.Utils.shapeEditing import convertListToDotStr
+from DirectAuthoringGenerator import DirectAuthoringGenerator as DirectAuthoringGenerator
+import TP_utils.basic as UB
+from TP_utils.shapeEditing import convertListToDotStr
 
-import threadPlotter.PunchNeedle.threadColorManagement as TCM
-from threadPlotter.Structure.PunchGroup import PunchGroup
-import threadPlotter.Utils.svg as SVG
+import TP_punchneedle.threadColorManagement as TCM
+from TP_structure.PunchGroup import PunchGroup
+import TP_utils.svg as SVG
 import json
 
 class ThreadPlotter(DirectAuthoringGenerator):

@@ -183,7 +183,7 @@ The sample image is created by George Chernilevsky and released into the public 
 The first step is to ensure the aspect ratio is the same with your final pattern
 's aspect ratio. If your final pattern is 1:1, you might want to crop the image so that the width-height ratio is 1:1. You can also reduce the quality of your original image to speed up the process.
 
-![alt text](../projects/tp02_convertImg/tp02_convertImg.py "Apple-tree blossoms 2017 G3.jpg")
+![edited-img](../projects/tp02_convertImg/1200px-Apple-tree_blossoms_2017_G3.jpg "Apple-tree blossoms 2017 G3.jpg")
 
 
 

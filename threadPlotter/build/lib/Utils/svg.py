@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from threadPlotter.Utils.basic import unitConvert
+from Utils.basic import unitConvert
 import re
 
 svgStarter='<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>'

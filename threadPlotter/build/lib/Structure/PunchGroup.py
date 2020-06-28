@@ -1,8 +1,7 @@
 
-from threadPlotter.Structure.PathList import PathList
-
-from threadPlotter.Utils.shapeEditing import pressIntoABox
-from threadPlotter.PunchNeedle import embroideryCalculation as EC
+from ThreadPlotter.Structure.PathList import PathList
+from ThreadPlotter.Utils.shapeEditing import pressIntoABox
+from ThreadPlotter.PunchNeedle import embroideryCalculation as EC
 class TransformError(Exception):
     def __init__(self, *args):
         if args:

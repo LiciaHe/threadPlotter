@@ -1,8 +1,8 @@
 '''
 stores utility functions for embroidery-specific calculations
 '''
-import threadPlotter.Utils.shapeEditing as SHAPE
-import threadPlotter.Utils.basic as UB
+import ThreadPlotter.Utils.shapeEditing as SHAPE
+
 def makeConnectedDot(pathPoints,segmentLength,minDist):
     '''
     converted from "convertPathsToConnectedDots"

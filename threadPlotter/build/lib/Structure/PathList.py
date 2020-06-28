@@ -2,9 +2,9 @@
 Stores paths as list
 Handles path formatting/exporting/manipulation
 '''
-import threadPlotter.Structure.Point as POINT
-import threadPlotter.Utils.shapeEditing as SHAPE
-import threadPlotter.Utils.clipperHelper as CH
+import ThreadPlotter.Structure.Point as POINT
+import ThreadPlotter.Utils.shapeEditing as SHAPE
+import ThreadPlotter.Utils.clipperHelper as CH
 
 class PathList:
     def __init__(self,starterArray=None,pathString=""):

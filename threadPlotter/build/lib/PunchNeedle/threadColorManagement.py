@@ -1,9 +1,9 @@
 '''
 PROCESS and find colored thread
 '''
-import math,random
+import random
 
-from threadPlotter.Utils import basic as UB
+from ThreadPlotter.Utils import basic as UB
 
 
 
@@ -31,7 +31,7 @@ def pickThreadColor(colors,allowMix=True):
     '''
     # file="original_only.pkl"
     # if additional:
-    file="../../threadPlotter/PunchNeedle/threadColor.pkl"
+    file="../../threadPlotter/TP_punchneedle/threadColor.pkl"
     colorMap=UB.load_object(file)
     plainColor={}
     mixedColor={}
@@ -57,7 +57,7 @@ def pickThreadColor(colors,allowMix=True):
 
 
 def pickRandomThreadColor(ct):
-    file = "../../threadPlotter/PunchNeedle/threadColor.pkl"
+    file = "../../threadPlotter/TP_punchneedle/threadColor.pkl"
     colorMap = UB.load_object(file)
     colorList = []
     rgbList=[]

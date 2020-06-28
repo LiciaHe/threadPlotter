@@ -9,7 +9,7 @@ except ImportError:
 
 from scipy.spatial import Delaunay
 import numpy as np
-from threadPlotter.PunchNeedle import threadColorManagement as TCM
+from ThreadPlotter.PunchNeedle import threadColorManagement as TCM
 class GridImgConverter:
     def getIntensities(self,pixelization_length, pixels, i, j):
         total_red_intensity = total_green_intensity = total_blue_intensity = 0

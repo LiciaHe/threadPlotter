@@ -2,7 +2,7 @@
 package to fill things
 '''
 import math,re,random
-import threadPlotter.Utils.shapeEditing as SHAPE
+import ThreadPlotter.Utils.shapeEditing as SHAPE
 
 
 def convertLinePathToDots(linePts,gap,innerDist=1,masterBoundary=None,addGap=False,locOnly=False):

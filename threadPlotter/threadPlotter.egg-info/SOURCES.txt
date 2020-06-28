@@ -4,7 +4,6 @@ README.md
 setup.cfg
 setup.py
 PunchNeedle/GridImgConverter.py
-PunchNeedle/PunchGroupProcessing.py
 PunchNeedle/__init__.py
 PunchNeedle/embroideryCalculation.py
 PunchNeedle/embroidery_thread_color.csv
