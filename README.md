@@ -29,7 +29,7 @@ If you are interested in using this toolkit, please consider citing our paper:[P
   2. Acquire or create several physical components such as needle, fabric, and frame. ([tutorial 2](tutorial/step2_physicalSetup.md))
   3. Design a punch needle pattern. 
      1. [tutorial 3: pattern making overview](tutorial/step3_patternMaking.md)
-     2. [tutorial 4: advanced examples](tutorial/step4_advancedExamples.md) 
+     2. [tutorial 4: advanced examples](tutorial/step4_advancedExamples.md) #in progress
   
  We highly recommend that you review our paper before getting started. When you are ready, click on each of the links above.
     

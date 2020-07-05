@@ -18,5 +18,5 @@ In our study, we hoped to avoid physically modifying our plotter to perform its 
 5. A sufficient downward force can be applied in the z-axis to punch through the tightened fabric.
     1. If your plotter is not drawing on a flat surface, it might be challenging to add additional z-axis force. 
 
-##Next Step 
+## Next Step 
 Once you have the right plotter, please take a look at [step 2: prepare materials](step2_physicalSetup.md). 

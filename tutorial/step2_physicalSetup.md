@@ -19,12 +19,12 @@ Here's an overview of everything you need for the project. We included purchase 
 Optional:
 Plywood and Laser cutter (to make the thread station and the thread separator)
 
-##Why?
+## Why?
 In our paper, we listed the materials we have tested and described why we think the materials we picked work for our plotter. Your plotter and your fabrication needs might require different combinations.
 
 Please use our [paper](http://www.cond.org/punchneedle.pdf) as the main reference point. In this tutorial, we mainly go over the making of the accessories (threading station, thread separator, and frame holder)
 
-###threading station, thread separator, and frame holder
+### threading station, thread separator, and frame holder
 *The thread station ensures that the spools are unwinding from the top of the spool. 
 
 *The thread separator lift the thread above the plotter. It also ensures that multiple strands of threads move independently. 
@@ -34,7 +34,7 @@ You can directly download these two SVG files ([svg1](../assets/thread%20feeder-
 * Frame holder works as a registration tool for the gripper frame. We laser-cut a wooden square, but you can find alternatives such as using a clamp or heavy items (books, for example) to form an opening.
  
 
-##Next Step 
+## Next Step 
 Once you have the right plotter, please take a look at [step 3: make a pattern](step3_patternMaking.md). 
 
   
