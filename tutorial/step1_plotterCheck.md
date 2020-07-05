@@ -1,11 +1,11 @@
-#Step 1: Plotter Check 
+# Step 1: Plotter Check 
 Not all X-Y plotter is suitable for the task. Before you start, you should double-check that your machine is suitable for the task. Our [paper](http://www.cond.org/punchneedle.pdf) describe this in detail. 
 
 In our experiment, we  chose to convert the commercially available [AxiDraw Pen Plotter (V3/A3 model)](https://axidraw.com/). 
 
 In our study, we hoped to avoid physically modifying our plotter to perform its original function. We identify the following criteria for selecting a plotter.
 
-####You can use a plotter (or any other CNC) if all of these criteria are met:
+#### You can use a plotter (or any other CNC) if all of these criteria are met:
 
  1. It provides movement in 3 directions (x, y, and z). 
  2. It can hold a punch needle tool. 

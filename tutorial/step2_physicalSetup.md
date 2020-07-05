@@ -1,4 +1,4 @@
-#Step 2: Physical Setup 
+# Step 2: Physical Setup 
 
 In this section, we will go over the materials needed for the fabrication process, including fabric, fabric stretcher, thread,  thread feeder, clamp, and punch needle.
  

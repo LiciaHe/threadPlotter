@@ -7,7 +7,7 @@ Thread plotter package is a toolkit that can
     
     2. If you use a different plotter, the python scripts would not work on your plotter. However, you can use the same strategy we took and modify the library to author in your own syntax.   
 
-##Install 
+## Install 
 We would recommend that you clone this repository so you have access to all of the sample projects. It also makes it easier for you to modify the threadPlotter, especially if you want to use it on plotters other than Axidraw. 
 
 Here's a list of dependencies that you might need to install. 

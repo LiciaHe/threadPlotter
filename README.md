@@ -1,31 +1,28 @@
-#ThreadPlotter
+# ThreadPlotter
+
 
 A toolkit for the design and fabrication of delicate punch needle embroidery using X-Y plotters_ 
  
- ##What?
+ ## What?
  
 ThreadPlotter is a toolkit that supports the designing, editing, and printing of images as punch needle embroidery using an X-Y plotter. It is a supplementary material for the paper:
 
 ["Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters"
  Shiqing He, Eytan Adar, to appear, DIS'20, Honorable Mention Award](http://www.cond.org/punchneedle.html)
 
-The following video briefly introduces the motivation for building this tool and the capability of the ThreadPlotter. 
-
-YOUTUBE PRESENTATION COMING SOON
-```python
-[![youtube-preview](assets/youtube-preview.png)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
-```
-
+The following video briefly introduces the motivation for building this tool and the capability of the ThreadPlotter.
+ 
+[![youtube-preview](assets/youtube-preview.png)](https://www.youtube.com/watch?v=zMfiQarMp-8)
 
 You might also be interested in this 10 minutes presentation that goes over the project in depth. 
 
-[![youtubePresentation](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+```python
+#todo: full-length presentation link available after July 6th
+```
 
 If you are interested in using this toolkit, please consider citing our paper:[Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters](http://www.cond.org/punchneedle.html)
-```
-#todo: add citation
-```
- ##How?
+
+ ## How?
  
  To convert your X-Y plotter into a punch needle fabricator, we will follow the following steps:
   1. Ensure that your plotter is suitable for the task. ([tutorial 1](tutorial/step1_plotterCheck.md))
@@ -40,12 +37,12 @@ If you are interested in using this toolkit, please consider citing our paper:[P
  We are excited to see what you can create with this fabrication technique. The toolkit is developed and tested by Licia (on her plotter called "Kitty"). If you have questions about the toolkit, feel free to open up an issue in our [github page](https://github.com/LiciaHe/threadPlotter).   
  
  If you created something and want to share it with us, please use the tag [#plotterembroidery](https://www.instagram.com/explore/tags/plotterembroidery/?hl=en) on SNS. 
- ```angular2html
-#todo: citation will be available soon
  
-``` 
+```
+#todo: citation available after July 6th
+```
  
- ###License
+ ### License
  
  MIT License
 
