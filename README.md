@@ -16,9 +16,9 @@ The following video briefly introduces the motivation for building this tool and
 
 You might also be interested in this 10 minutes presentation that goes over the project in depth. 
 
-```python
-#todo: full-length presentation link available after July 6th
-```
+
+[![youtube-presentation](assets/youtube-presentation.png)](https://www.youtube.com/watch?v=jvuNcWv8kGo)
+
 
 If you are interested in using this toolkit, please consider citing our paper:[Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters](http://www.cond.org/punchneedle.html)
 
@@ -39,7 +39,24 @@ If you are interested in using this toolkit, please consider citing our paper:[P
  If you created something and want to share it with us, please use the tag [#plotterembroidery](https://www.instagram.com/explore/tags/plotterembroidery/?hl=en) on SNS. 
  
 ```
-#todo: citation available after July 6th
+@inproceedings{10.1145/3357236.3395540,
+author = {He, Shiqing and Adar, Eytan},
+title = {Plotting with Thread: Fabricating Delicate Punch Needle Embroidery with X-Y Plotters},
+year = {2020},
+isbn = {9781450369749},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3357236.3395540},
+doi = {10.1145/3357236.3395540},
+booktitle = {Proceedings of the 2020 ACM Designing Interactive Systems Conference},
+pages = {1047–1057},
+numpages = {11},
+keywords = {plotter, craft fabrication, embroidery fabrication, punch needle embroidery, craft design, x-y plotter, fiber art},
+location = {Eindhoven, Netherlands},
+series = {DIS ’20}
+}
+  
+
 ```
  
  ### License
